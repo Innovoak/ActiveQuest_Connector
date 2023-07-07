@@ -1,6 +1,7 @@
 package com.innovoak.util.webhelpers.data;
 
 import java.io.Serializable;
+import java.sql.Connection;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.Repository;
@@ -12,45 +13,64 @@ import com.innovoak.util.webhelpers.criteria.Criteria;
 // mappings will occur where
 // 
 public abstract class DatabaseRepository<T extends Serializable> implements Repository<T> {
+	// Current session
 	private DatabaseSession session;
-	// Use Query API
 
+	// Create a database repo from this constructor
 	public DatabaseRepository(DatabaseSession session) {
 		this.session = session;
 	}
 
+	// Check if the connection is closed
+	public void checkClosed() throws Exception {
+		if (session.isClosed())
+			throw new IllegalAccessError("Session is already closed");
+	}
+
 	@Override
 	public List<T> getAllBy(Criteria criteria) throws Exception {
-
-//		String query = String.format("select %s from %s", );
-		// Placeholder
-		session.createQuery(Columns.ALL, criteria);
+		checkClosed();
+		// TODO: FINISH
 
 		return null;
 	}
 
 	@Override
 	public void deleteAllBy(Criteria criteria) throws Exception {
+		checkClosed();
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void insert(T object) throws Exception {
+		checkClosed();
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	public void insertAll(List<T> objects) throws Exception {
+		checkClosed();
+		// TODO Auto-generated method stub
+		// Use batch statements here
+
+	}
+
+	@Override
 	public void updateAllBy(T object, Criteria criteria) throws Exception {
+		checkClosed();
 		// TODO Auto-generated method stub
 
 	}
 
+	// Get the connection from the session
+	protected final Connection getConnection() {
+		return session.getConnection();
+	}
+	
 	// Table specific data
-	abstract String getTableName();
+	protected abstract String getTableName();
 
-	abstract List<String> getColumnNames();
-
-	abstract T newInstance();
+	protected abstract T newInstance();
 }
