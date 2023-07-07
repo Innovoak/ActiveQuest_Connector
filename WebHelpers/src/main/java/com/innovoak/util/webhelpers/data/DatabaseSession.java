@@ -8,7 +8,7 @@ import java.util.Map;
 import com.innovoak.util.webhelpers.criteria.Criteria;
 
 // Acts as a session or connection to the database
-public class DatabaseSession implements AutoCloseable {
+public final class DatabaseSession implements AutoCloseable {
 
 	// Fields
 	private Map<Class<?>, DatabaseRepository<?>> repositories;
@@ -51,10 +51,20 @@ public class DatabaseSession implements AutoCloseable {
 		return QueryBuilder.create(this).setCriteria(columns, criteria).build();
 	}
 
+	// Close the session
 	@Override
 	public void close() throws Exception {
-		if (!connection.isClosed())
+		if (!isClosed())
 			connection.close();
 	}
 
+	// Check whether it is closed
+	public boolean isClosed() throws Exception {
+		return connection.isClosed();
+	}
+
+	// Give package access
+	protected Connection getConnection() {
+		return connection;
+	}
 }
