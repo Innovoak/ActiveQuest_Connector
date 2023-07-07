@@ -1,7 +1,5 @@
 package com.innovoak.util.webhelpers.data;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -96,10 +94,7 @@ public final class DatabaseService implements AutoCloseable {
 
 	// Get the repository class
 	// TODO: get or default a regular simple database repository
-	@SuppressWarnings("unchecked")
-	protected static <T extends Serializable> Class<? extends DatabaseRepository<T>> getRepositoryClass(
-			Class<T> clazz) {
-		return (Class<? extends DatabaseRepository<T>>) TOTAL_REPOSITORIES.get(clazz);
-
+	protected static Map<Class<?>, Class<? extends DatabaseRepository>> getRepositoryMap() {
+		return TOTAL_REPOSITORIES;
 	}
 }

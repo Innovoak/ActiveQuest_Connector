@@ -25,8 +25,7 @@ public final class ClasspathUtils {
 
 	// Check for instantiability
 	public static boolean isInstantiable(Class<?> clz) {
-		if (clz.isPrimitive() || Modifier.isAbstract(clz.getModifiers()) || clz.isInterface() || clz.isArray()
-				|| Stream.of(clz.getConstructors()).anyMatch(c -> c.getParameterCount() == 0)) {
+		if (clz.isPrimitive() || Modifier.isAbstract(clz.getModifiers()) || clz.isInterface() || clz.isArray()) {
 			return false;
 		}
 
