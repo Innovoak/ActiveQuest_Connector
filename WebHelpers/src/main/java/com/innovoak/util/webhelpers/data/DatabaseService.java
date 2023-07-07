@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import com.innovoak.util.webhelpers.data.internal.BasicPoolingDataSource;
+import org.apache.commons.dbcp.BasicDataSource;
 
 // Singleton class for database service
 public final class DatabaseService implements AutoCloseable {
@@ -24,7 +24,7 @@ public final class DatabaseService implements AutoCloseable {
 
 	//
 	private boolean opened, closed;
-	private BasicPoolingDataSource ds;
+	private BasicDataSource ds;
 
 	// Create a new Database service
 	private DatabaseService() {
