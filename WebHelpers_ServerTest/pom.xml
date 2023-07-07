@@ -7,12 +7,12 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
     <packaging>war</packaging>
     <dependencies>
         <dependency>
-            <groupId>com.raos.util.apps</groupId>
+            <groupId>com.innovoak.util.apps</groupId>
             <artifactId>WebHelpers</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.raos.test.webhelpers</groupId>
+            <groupId>com.innovoak.test.webhelpers</groupId>
             <artifactId>WebHelpers_ClientTest</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
