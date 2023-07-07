@@ -34,6 +34,7 @@ public class PredicateCriteria implements Criteria {
 
 	@Override
 	public String toString() {
+		// TODO: Type
 		return String.format("%s = ?", column);
 	}
 	
