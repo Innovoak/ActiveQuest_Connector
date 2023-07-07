@@ -1,29 +1,46 @@
 package com.innovoak.util.webhelpers.data;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.commons.dbcp.BasicDataSource;
 
+import com.innovoak.util.webhelpers.ClasspathUtils;
+
 // Singleton class for database service
+@SuppressWarnings("rawtypes")
 public final class DatabaseService implements AutoCloseable {
 	// Singleton values
 	private static volatile DatabaseService service;
-	private static final Map<Class<?>, Class<? extends DatabaseRepository<?>>> TOTAL_REPOSITORIES;
+	private static final Map<Class<?>, Class<? extends DatabaseRepository>> TOTAL_REPOSITORIES;
 
 	static {
-		// TODO: In reality we would scan classpath and add anything which implements
-		// DatabaseRepository to the Total repositories
-		// Anything which is a concrete class
-		TOTAL_REPOSITORIES = new HashMap<>();
+		// Create a map to house the repositories
+		HashMap<Class<?>, Class<? extends DatabaseRepository>> repositoryClasses = new HashMap<>();
+
+		try {
+			// Go through all concrete implementations of DatabaseRepository
+			for (Class<? extends DatabaseRepository> clazz : ClasspathUtils
+					.findAllConcreteInstances(DatabaseRepository.class)) {
+				// Add this to the repositoryClasses
+				repositoryClasses.put(clazz.getMethod("newInstance").getReturnType(), clazz);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("This is not supposed to happen");
+		}
+
+		// Add the repositories
+		TOTAL_REPOSITORIES = Collections.unmodifiableMap(repositoryClasses);
+
 	}
 
-	//
-	private boolean opened, closed;
+	// States
+	private boolean closed;
 	private BasicDataSource ds;
 
 	// Create a new Database service
@@ -32,6 +49,7 @@ public final class DatabaseService implements AutoCloseable {
 			return;
 		}
 
+		// Singletn stuff
 		throw new IllegalStateException("Already instantiated");
 	}
 
@@ -48,10 +66,11 @@ public final class DatabaseService implements AutoCloseable {
 		return service;
 	}
 
-	// Opens up the connections
-	public void open(String url, Properties properties) {
-		// Set opened to true
-		opened = true;
+	// If the datasource is not already created, create it
+	public void open() {
+		if (ds != null) {
+
+		}
 	}
 
 	// Create a new session
@@ -62,7 +81,7 @@ public final class DatabaseService implements AutoCloseable {
 	@Override
 	public void close() throws Exception {
 		// Check if opened and not closed
-		if (opened && !closed) {
+		if (!closed) {
 			// Close
 			((AutoCloseable) ds).close();
 			closed = true;
