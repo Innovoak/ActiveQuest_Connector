@@ -15,7 +15,18 @@ public class DatabaseSession implements AutoCloseable {
 	private Connection connection;
 
 	public DatabaseSession(DatabaseService service) throws SQLException {
+		// Open a connection
 		connection = service.openConnection();
+
+		// Create the database repositories
+		DatabaseService.getRepositoryMap().forEach((e, v) -> {
+			// Create the database repository
+			try {
+				repositories.put(e, v.getConstructor(DatabaseSession.class).newInstance(this));
+			} catch (Exception e1) {
+				throw new RuntimeException("This shouldnt happen");
+			}
+		});
 	}
 
 	// Getting a database repository

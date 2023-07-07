@@ -51,4 +51,6 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	abstract String getTableName();
 
 	abstract List<String> getColumnNames();
+
+	abstract T newInstance();
 }
