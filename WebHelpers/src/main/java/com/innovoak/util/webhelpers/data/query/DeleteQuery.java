@@ -1,8 +1,10 @@
 package com.innovoak.util.webhelpers.data.query;
 
+import java.sql.Connection;
 import java.util.Iterator;
 
 import com.innovoak.util.webhelpers.data.DatabaseSession;
+import com.innovoak.util.webhelpers.data.Query;
 
 // delete statements - UPDATE <table> SET <column = value> (WHERE <condition>)
 public class DeleteQuery implements Query<String> {
@@ -14,7 +16,7 @@ public class DeleteQuery implements Query<String> {
 	}
 
 	@Override
-	public void execute(DatabaseSession session) {
+	public void execute(Connection session) {
 	}
 
 }
