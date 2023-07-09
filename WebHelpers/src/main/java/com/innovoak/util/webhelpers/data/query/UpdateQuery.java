@@ -5,12 +5,7 @@ import java.util.Iterator;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
 // update statements - DELETE FROM <table> (WHERE <conditions>)
-public class UpdateQuery extends Query {
-
-	public UpdateQuery(DatabaseSession session) {
-		super(session);
-		// TODO Auto-generated constructor stub
-	}
+public class UpdateQuery implements Query {
 
 	@Override
 	public Iterator<Object[]> iterator() {
@@ -19,7 +14,7 @@ public class UpdateQuery extends Query {
 	}
 
 	@Override
-	public void execute() {
+	public void execute(DatabaseSession session) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -11,20 +11,9 @@ update statements - DELETE FROM <table> (WHERE <conditions>)
 delete statements - UPDATE <table> SET <column = value> (WHERE <condition>)
 
  */
-public abstract class Query implements Iterable<Object[]> {
-	// Session
-	private final DatabaseSession session;
-
-	public Query(DatabaseSession session) {
-		this.session = session;
-	}
+public interface Query extends Iterable<Object[]> {
 
 	// Executes the query
-	public abstract void execute();
-
-	// Get the session
-	public DatabaseSession getSession() {
-		return session;
-	}
+	public void execute(DatabaseSession session);
 
 }

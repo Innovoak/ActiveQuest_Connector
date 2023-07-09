@@ -5,12 +5,7 @@ import java.util.Iterator;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
 // insert statements - INSERT INTO <table> (<columns>) VALUES (<column values>)
-public class InsertQuery extends Query {
-
-	public InsertQuery(DatabaseSession session) {
-		super(session);
-		// TODO Auto-generated constructor stub
-	}
+public class InsertQuery implements Query {
 
 	@Override
 	public Iterator<Object[]> iterator() {
@@ -19,7 +14,7 @@ public class InsertQuery extends Query {
 	}
 
 	@Override
-	public void execute() {
+	public void execute(DatabaseSession session) {
 		// TODO Auto-generated method stub
 		
 	}

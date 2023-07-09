@@ -5,12 +5,7 @@ import java.util.Iterator;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
 // select statements - SELECT (DISTINCT) <columns> FROM <table> (WHERE <conditions>) (LIMIT <number>) (ORDER BY <columns (ASC | DESC)>)
-public class SelectQuery extends Query {
-
-	public SelectQuery(DatabaseSession session) {
-		super(session);
-		// TODO Auto-generated constructor stub
-	}
+public class SelectQuery implements Query {
 
 	@Override
 	public Iterator<Object[]> iterator() {
@@ -19,7 +14,7 @@ public class SelectQuery extends Query {
 	}
 
 	@Override
-	public void execute() {
+	public void execute(DatabaseSession session) {
 		// TODO Auto-generated method stub
 		
 	}
