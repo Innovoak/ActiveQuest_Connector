@@ -6,5 +6,5 @@ import java.util.List;
 public interface BranchCriteria extends Criteria {
 
 	// Get child criterias
-	public List<Criteria> getChildCriteria();
+	public List<Criteria> getNodeCriteria();
 }
