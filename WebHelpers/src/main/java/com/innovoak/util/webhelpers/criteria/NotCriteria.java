@@ -1,7 +1,10 @@
 package com.innovoak.util.webhelpers.criteria;
 
+import java.util.Arrays;
+import java.util.List;
+
 //Represents NOT notation on criterias
-class NotCriteria implements Criteria {
+class NotCriteria implements BranchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	// Criterias
@@ -20,5 +23,10 @@ class NotCriteria implements Criteria {
 	@Override
 	public String toString() {
 		return String.format("NOT (%s)", criteria);
+	}
+
+	@Override
+	public List<Criteria> getChildCriteria() {
+		return Arrays.asList(criteria);
 	}
 }
