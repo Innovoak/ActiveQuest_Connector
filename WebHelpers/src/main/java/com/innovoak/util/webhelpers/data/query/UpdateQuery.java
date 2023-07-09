@@ -5,10 +5,10 @@ import java.util.Iterator;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
 // update statements - DELETE FROM <table> (WHERE <conditions>)
-public class UpdateQuery implements Query {
+public class UpdateQuery implements Query<String> {
 
 	@Override
-	public Iterator<Object[]> iterator() {
+	public Iterator<String> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}

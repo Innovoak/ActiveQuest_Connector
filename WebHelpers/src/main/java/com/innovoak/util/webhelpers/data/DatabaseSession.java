@@ -5,9 +5,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.innovoak.util.webhelpers.criteria.Criteria;
-import com.innovoak.util.webhelpers.data.query.Query;
-
 // Acts as a session or connection to the database
 public final class DatabaseSession implements AutoCloseable {
 
