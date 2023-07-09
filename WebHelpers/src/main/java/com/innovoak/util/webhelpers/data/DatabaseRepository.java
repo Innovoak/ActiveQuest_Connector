@@ -65,7 +65,7 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	}
 
 	// Get the connection from the session
-	protected final Connection getConnection() {
+	protected final Connection getConnection() throws Exception {
 		return session.getConnection();
 	}
 	

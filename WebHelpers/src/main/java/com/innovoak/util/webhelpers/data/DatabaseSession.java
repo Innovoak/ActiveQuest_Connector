@@ -51,7 +51,12 @@ public final class DatabaseSession implements AutoCloseable {
 	}
 
 	// Give package access
-	protected Connection getConnection() {
+	protected Connection getConnection() throws Exception {
+		if (isClosed())
+			throw new IllegalAccessException("Connection is closed");
+		
+		
 		return connection;
 	}
+	
 }

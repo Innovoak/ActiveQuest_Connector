@@ -1,12 +1,27 @@
 package com.innovoak.util.webhelpers.data.query;
 
+import java.sql.Connection;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.data.Columns;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
+import com.innovoak.util.webhelpers.data.Query;
 
 // select statements - SELECT (DISTINCT) <columns> FROM <table> (WHERE <conditions>) (LIMIT <number>) (ORDER BY <columns (ASC | DESC)>)
-public class SelectQuery implements Query<Map<String, Object>> {
+public final class SelectQuery implements Query<Map<String, Object>> {
+	
+	private String sql;
+	
+	protected SelectQuery(String sql) {
+		this.sql = sql;
+	}
+	
+	public SelectQuery(boolean distinct, Columns columns, String tableName, Criteria criteria) {
+		
+	}
+	
 
 	@Override
 	public Iterator<Map<String, Object>> iterator() {
@@ -15,8 +30,7 @@ public class SelectQuery implements Query<Map<String, Object>> {
 	}
 
 	@Override
-	public void execute(DatabaseSession session) {
-		// TODO Auto-generated method stub
+	public void execute(Connection session) {
 		
 	}
 

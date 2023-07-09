@@ -1,6 +1,7 @@
-package com.innovoak.util.webhelpers.data.query;
+package com.innovoak.util.webhelpers.data;
 
-import com.innovoak.util.webhelpers.data.DatabaseSession;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 /*
 Should accurately represent all the statements
@@ -14,6 +15,13 @@ delete statements - UPDATE <table> SET <column = value> (WHERE <condition>)
 public interface Query<T> extends Iterable<T> {
 
 	// Executes the query
-	public void execute(DatabaseSession session);
+	public default void execute(DatabaseSession session) throws Exception {
+
+		// Execute query
+		execute(session.getConnection());
+
+	}
+
+	public void execute(Connection connection) throws SQLException;
 
 }
