@@ -41,11 +41,6 @@ public final class DatabaseSession implements AutoCloseable {
 		return null;
 	}
 
-	// Creates a new query
-	public Query createQuery(String sql) {
-		return null; // TODO: Create queries
-	}
-
 	// Close the session
 	@Override
 	public void close() throws Exception {
