@@ -26,7 +26,7 @@ class NotCriteria implements BranchCriteria {
 	}
 
 	@Override
-	public List<Criteria> getChildCriteria() {
+	public List<Criteria> getNodeCriteria() {
 		return Arrays.asList(criteria);
 	}
 }

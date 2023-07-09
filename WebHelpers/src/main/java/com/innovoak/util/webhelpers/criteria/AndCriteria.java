@@ -32,7 +32,7 @@ class AndCriteria implements BranchCriteria {
 	}
 
 	@Override
-	public List<Criteria> getChildCriteria() {
+	public List<Criteria> getNodeCriteria() {
 		return Arrays.asList(first, second);
 	}
 }
