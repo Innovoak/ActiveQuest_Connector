@@ -7,8 +7,6 @@ public class ConstructableBuilder<T> extends AbstractBuilder<T> {
 	// Fields
 	private Object[] ctorArgs;
 	private Class<T> clazz;
-	
-	
 
 	// Protected constructor
 	protected ConstructableBuilder(Class<T> clazz) {
