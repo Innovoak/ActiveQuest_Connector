@@ -1,7 +1,10 @@
 package com.innovoak.util.webhelpers.criteria;
 
+import java.util.Arrays;
+import java.util.List;
+
 // Represents OR notation on criterias
-class OrCriteria implements Criteria {
+class OrCriteria implements BranchCriteria {
 	private static final long serialVersionUID = 1L;
 
 	// Criterias
@@ -26,5 +29,10 @@ class OrCriteria implements Criteria {
 	@Override
 	public String toString() {
 		return String.format("(%s OR %s)", first, second);
+	}
+
+	@Override
+	public List<Criteria> getChildCriteria() {
+		return Arrays.asList(first, second);
 	}
 }

@@ -5,14 +5,14 @@ import java.io.Serializable;
 // represents a criteria
 // TODO: Build the rest of the API
 public interface Criteria extends Serializable {
-	
+
 	// None criteria
 	public static enum NoneHolder implements Criteria {
 		NONE
 	}
-	
-	
+
 	// Type of criteria
+	@Deprecated
 	public static enum Type {
 		EQUALS, GREATER_THAN, LESS_THAN
 	}
@@ -71,6 +71,6 @@ public interface Criteria extends Serializable {
 	public static Criteria notEqualsCriteria(String column, Serializable value) {
 		return not(equalsCriteria(column, value));
 	}
-	
+
 	String toString();
 }

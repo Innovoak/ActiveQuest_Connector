@@ -3,6 +3,9 @@ package com.innovoak.util.webhelpers.criteria;
 import java.io.Serializable;
 
 // Predicate criteria
+// https://www.w3schools.com/sql/sql_operators.asp
+// Create individial =, <, >, <=, =>, <>, BETWEEN, IN, LIKE
+@Deprecated
 public class PredicateCriteria implements Criteria {
 	private static final long serialVersionUID = 1L;
 
