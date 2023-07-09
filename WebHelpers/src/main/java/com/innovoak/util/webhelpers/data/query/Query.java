@@ -11,7 +11,7 @@ update statements - DELETE FROM <table> (WHERE <conditions>)
 delete statements - UPDATE <table> SET <column = value> (WHERE <condition>)
 
  */
-public interface Query extends Iterable<Object[]> {
+public interface Query<T> extends Iterable<T> {
 
 	// Executes the query
 	public void execute(DatabaseSession session);

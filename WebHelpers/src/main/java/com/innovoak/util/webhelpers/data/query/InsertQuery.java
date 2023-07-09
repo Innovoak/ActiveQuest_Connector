@@ -5,10 +5,10 @@ import java.util.Iterator;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
 // insert statements - INSERT INTO <table> (<columns>) VALUES (<column values>)
-public class InsertQuery implements Query {
+public class InsertQuery implements Query<String> {
 
 	@Override
-	public Iterator<Object[]> iterator() {
+	public Iterator<String> iterator() {
 		// TODO Auto-generated method stub
 		return null;
 	}
