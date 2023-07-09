@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.data.Query.QueryBuilder;
+import com.innovoak.util.webhelpers.data.query.Query;
 
 // Acts as a session or connection to the database
 public final class DatabaseSession implements AutoCloseable {
@@ -42,13 +44,7 @@ public final class DatabaseSession implements AutoCloseable {
 
 	// Creates a new query
 	public Query createQuery(String sql) {
-		return QueryBuilder.create(this).setCommand(sql).build();
-	}
-
-	// TODO: Fix so that its a Columns class instead of a string array
-	// Creates a new query
-	public Query createQuery(Columns columns, Criteria criteria) {
-		return QueryBuilder.create(this).setCriteria(columns, criteria).build();
+		return null; // TODO: Create queries
 	}
 
 	// Close the session
