@@ -16,6 +16,7 @@ import com.innovoak.util.webhelpers.SQLUtils;
 import com.innovoak.util.webhelpers.criteria.BranchCriteria;
 import com.innovoak.util.webhelpers.criteria.Criteria;
 import com.innovoak.util.webhelpers.criteria.LeafCriteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
 import com.innovoak.util.webhelpers.data.Columns;
 import com.innovoak.util.webhelpers.data.Query;
 
@@ -40,11 +41,10 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 	}
 
 	// Public constructor
-	public SelectQuery(boolean distinct, Columns columns, String tableName, Criteria criteria) {
+	public SelectQuery(boolean distinct, Columns columns, String tableName, SelectCriteria criteria) {
 		// Build the sql
 		sql = new StringBuilder().append("SELECT ").append(distinct ? "DISTINCT " : "").append(columns.toString())
-				.append(" FROM ").append(tableName)
-				.append(criteria == Criteria.NoneHolder.NONE ? "" : " WHERE " + criteria.toString()).toString();
+				.append(" FROM ").append(tableName).append(criteria == null ? "" : criteria).toString();
 
 		// Get params
 		getParams(criteria);
