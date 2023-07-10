@@ -6,7 +6,7 @@ import java.util.List;
 // Equals criteria
 public class EqualsCriteria implements ComparisonOperator {
 	private static final long serialVersionUID = 1L;
-
+	
 	// Column
 	private String column;
 	// Value
@@ -18,6 +18,12 @@ public class EqualsCriteria implements ComparisonOperator {
 		this.column = column;
 		this.value = value;
 	}
+	
+	//No-argument constructor (For serializable fields) 
+	public EqualsCriteria() {
+		
+	}
+	
 
 	// To string and parameters
 	@Override
