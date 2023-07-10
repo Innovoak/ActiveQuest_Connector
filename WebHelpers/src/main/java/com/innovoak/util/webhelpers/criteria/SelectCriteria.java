@@ -57,7 +57,7 @@ public class SelectCriteria implements BranchCriteria {
 	@Override
 	public String toString() {
 		// Create the string builder
-		StringBuilder clause = new StringBuilder(criteria.toString()).append(" ");
+		StringBuilder clause = new StringBuilder("WHERE ").append(criteria.toString()).append(" ");
 
 		// Make sure limit is greater than 0
 		if (limit > 0)
