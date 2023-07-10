@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.predicate.comparing.EqualsCriteria;
 
 // This interface acts as a method of data transfer from the client on the server
 public interface Repository<T extends Serializable> {
 
 	// GET VALUES
 	default void get(Serializable id) throws Exception {
-		getAllBy(Criteria.equalsCriteria("id", id));
+		getAllBy(new EqualsCriteria("id", id));
 	}
 
 	default List<T> getAll() throws Exception {
@@ -21,7 +22,7 @@ public interface Repository<T extends Serializable> {
 
 	/// DELETE VALUES
 	default void delete(Serializable id) throws Exception {
-		deleteAllBy(Criteria.equalsCriteria("id", id));
+		deleteAllBy(new EqualsCriteria("id", id));
 	}
 
 	default void deleteAll() throws Exception {
@@ -37,7 +38,7 @@ public interface Repository<T extends Serializable> {
 
 	// UPDATE VALUES
 	default void update(T object, Serializable id) throws Exception {
-		updateAllBy(object, Criteria.equalsCriteria("id", id));
+		updateAllBy(object, new EqualsCriteria("id", id));
 	}
 
 	default void updateAll(T object) throws Exception {

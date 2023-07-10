@@ -1,10 +1,13 @@
-package com.innovoak.util.webhelpers.criteria;
+package com.innovoak.util.webhelpers.criteria.predicate.logical;
 
 import java.util.Arrays;
 import java.util.List;
 
+import com.innovoak.util.webhelpers.criteria.BranchCriteria;
+import com.innovoak.util.webhelpers.criteria.Criteria;
+
 //Represents NOT notation on criterias
-class NotCriteria implements BranchCriteria {
+public class NotCriteria implements LogicalOperator {
 	private static final long serialVersionUID = 1L;
 
 	// Criterias

@@ -1,10 +1,13 @@
-package com.innovoak.util.webhelpers.criteria;
+package com.innovoak.util.webhelpers.criteria.predicate.logical;
 
 import java.util.Arrays;
 import java.util.List;
 
-// Represents OR notation on criterias
-class OrCriteria implements BranchCriteria {
+import com.innovoak.util.webhelpers.criteria.BranchCriteria;
+import com.innovoak.util.webhelpers.criteria.Criteria;
+
+// Represents AND notation on criterias
+public class AndCriteria implements LogicalOperator {
 	private static final long serialVersionUID = 1L;
 
 	// Criterias
@@ -12,7 +15,7 @@ class OrCriteria implements BranchCriteria {
 	private final Criteria second;
 
 	// Ands the criterias
-	public OrCriteria(Criteria first, Criteria second) {
+	public AndCriteria(Criteria first, Criteria second) {
 		this.first = first;
 		this.second = second;
 	}
@@ -28,7 +31,7 @@ class OrCriteria implements BranchCriteria {
 
 	@Override
 	public String toString() {
-		return String.format("(%s OR %s)", first, second);
+		return String.format("(%s AND %s)", first, second);
 	}
 
 	@Override
