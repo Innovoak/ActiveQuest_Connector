@@ -1,14 +1,11 @@
 package com.innovoak.util.webhelpers.data.query;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +20,7 @@ import com.innovoak.util.webhelpers.data.Columns;
 import com.innovoak.util.webhelpers.data.Query;
 
 // select statements - SELECT (DISTINCT) <columns> FROM <table> (WHERE <conditions>) (LIMIT <number>) (ORDER BY <columns (ASC | DESC)>)
+//                 bolean distinct - Columns columns - String tableName - Criteria criteria
 public final class SelectQuery implements Query<Map<String, Object>> {
 
 	// The sql statement
@@ -35,7 +33,10 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 
 	// protected constructor
 	protected SelectQuery(String sql) {
+		// Sql
 		this.sql = sql;
+
+		params = Collections.emptyList();
 	}
 
 	// Public constructor
@@ -107,12 +108,16 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 			// add the map to the list
 			iterable.add(row);
 		}
-		
+
 		// Make it unmodifiable
 		iterable = Collections.unmodifiableList(iterable);
 
 		// Set flag to true
 		executed = true;
+
+		// Close the result set and preparedstatements
+		rs.close();
+		ps.close();
 	}
 
 }
