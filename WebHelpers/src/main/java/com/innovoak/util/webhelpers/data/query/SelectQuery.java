@@ -6,8 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -88,9 +91,28 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 
 		// Get columns
 		Set<String> columns = SQLUtils.getColumnNames(rs.getMetaData());
+
+		// Create a new linked list
+		iterable = new LinkedList<>();
+
+		// While there are values in the result set
+		while (rs.next()) {
+			// Create a map
+			Map<String, Object> row = new HashMap<>();
+
+			// Populate it with result set data
+			for (String column : columns)
+				row.put(column, rs.getObject(column));
+
+			// add the map to the list
+			iterable.add(row);
+		}
 		
-		
-		
+		// Make it unmodifiable
+		iterable = Collections.unmodifiableList(iterable);
+
+		// Set flag to true
+		executed = true;
 	}
 
 }
