@@ -1,5 +1,6 @@
 package com.innovoak.util.webhelpers.data.query;
 
+import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,25 +24,31 @@ import com.innovoak.util.webhelpers.data.Query;
 // select statements - SELECT (DISTINCT) <columns> FROM <table> (WHERE <conditions>) (LIMIT <number>) (ORDER BY <columns (ASC | DESC)>)
 //                 bolean distinct - Columns columns - String tableName - Criteria criteria
 public final class SelectQuery implements Query<Map<String, Object>> {
-
+	private static final long serialVersionUID = 1L;
 	// The sql statement
 	private String sql;
-	private boolean executed = false;
-	private List<Map<String, Object>> iterable;
+	private transient List<Map<String, Object>> iterable;
 
 	// Parameters from criteria
 	private List<Object> params;
 
+	// Serialization purposes only
+	public SelectQuery() {
+		// Create
+		params = Collections.emptyList();
+	}
+
 	// protected constructor
 	protected SelectQuery(String sql) {
+		this();
 		// Sql
 		this.sql = sql;
 
-		params = Collections.emptyList();
 	}
 
 	// Public constructor
 	public SelectQuery(boolean distinct, Columns columns, String tableName, SelectCriteria criteria) {
+
 		// Build the sql
 		sql = new StringBuilder().append("SELECT ").append(distinct ? "DISTINCT " : "").append(columns.toString())
 				.append(" FROM ").append(tableName).append(criteria == null ? "" : criteria).toString();
@@ -71,7 +78,7 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 	@Override
 	public Iterator<Map<String, Object>> iterator() {
 		// make sure that this has executed
-		if (!executed)
+		if (iterable == null)
 			throw new IllegalStateException("Data has not been loaded yet");
 
 		// Return the list iterator
@@ -111,9 +118,6 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 
 		// Make it unmodifiable
 		iterable = Collections.unmodifiableList(iterable);
-
-		// Set flag to true
-		executed = true;
 
 		// Close the result set and preparedstatements
 		rs.close();

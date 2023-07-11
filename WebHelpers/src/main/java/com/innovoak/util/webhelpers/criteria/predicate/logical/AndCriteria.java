@@ -13,7 +13,7 @@ public class AndCriteria implements LogicalOperator {
 	// Criterias
 	private final Criteria first;
 	private final Criteria second;
-
+	
 	// Ands the criterias
 	public AndCriteria(Criteria first, Criteria second) {
 		this.first = first;

@@ -1,6 +1,7 @@
 package com.innovoak.util.webhelpers.client;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -96,6 +97,6 @@ public abstract class ClientRepository<T extends Serializable> implements Reposi
 		}
 	}
 
-	protected abstract URL getRepositoryURL();
+	protected abstract URL getRepositoryURL() throws MalformedURLException;
 
 }

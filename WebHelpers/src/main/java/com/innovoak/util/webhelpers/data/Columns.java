@@ -1,14 +1,21 @@
 package com.innovoak.util.webhelpers.data;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
 // Factory for getting columns
-public final class Columns {
+public final class Columns implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final Columns ALL = new Columns(new String[] { "*" });
 
 	// Columns
 	private String[] columns;
+
+	//
+	public Columns() {
+	}
 
 	// Columns
 	private Columns(String[] columns) {
@@ -18,6 +25,15 @@ public final class Columns {
 	// Static initializer
 	public static Columns of(String... columns) {
 		return new Columns(columns);
+	}
+
+	//
+	public String[] getColumns() {
+		return columns;
+	}
+
+	public void setColumns(String[] columns) {
+		this.columns = columns;
 	}
 
 	// Utility methods

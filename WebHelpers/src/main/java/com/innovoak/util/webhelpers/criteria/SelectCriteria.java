@@ -84,8 +84,8 @@ public class SelectCriteria implements BranchCriteria {
 	        clause.append("LIMIT ").append(limit).append(" ");
 	    }
 
-	    // Make sure offset is greater or equal to 0
-	    if (offset >= 0) {
+	    // Make sure offset is greater than 0
+	    if (offset > 0) {
 	        clause.append("OFFSET ").append(offset).append(" ");
 	    }
 

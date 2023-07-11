@@ -35,6 +35,7 @@ public final class DatabaseSession implements AutoCloseable {
 			return (DatabaseRepository<T>) repositories.get(clazz);
 
 		// Otherwise create a repository of that class
+		// TODO: Create a repository
 		return null;
 	}
 
@@ -43,6 +44,23 @@ public final class DatabaseSession implements AutoCloseable {
 	public void close() throws Exception {
 		if (!isClosed())
 			connection.close();
+	}
+	
+	// Commiting and Rolling back transactions
+	// Commit on close
+	public void commit() throws Exception {
+		if (isClosed())
+			throw new IllegalAccessException("Connection is closed");
+		
+		connection.commit();
+	}
+	
+	// any exceptions? rollback
+	public void rollback() throws Exception {
+		if (isClosed())
+			throw new IllegalAccessException("Connection is closed");
+		
+		connection.rollback();
 	}
 
 	// Check whether it is closed

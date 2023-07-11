@@ -118,8 +118,7 @@ public final class DatabaseService implements AutoCloseable {
 		return ds.getConnection();
 	}
 
-	// Get the repository class
-	// TODO: get or default a regular simple database repository
+	// Get the repository map
 	protected static Map<Class<?>, Class<? extends DatabaseRepository>> getRepositoryMap() {
 		return TOTAL_REPOSITORIES;
 	}
