@@ -1,6 +1,5 @@
 package com.innovoak.util.webhelpers.data.query;
 
-import java.io.ObjectInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,7 +50,9 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 
 		// Build the sql
 		sql = new StringBuilder().append("SELECT ").append(distinct ? "DISTINCT " : "").append(columns.toString())
-				.append(" FROM ").append(tableName).append(criteria == null ? "" : criteria).toString();
+				.append(" FROM ").append(tableName)
+				.append(criteria == null || criteria.getCriteria() == Criteria.NoneHolder.NONE ? "" : criteria)
+				.toString();
 
 		// Get params
 		getParams(criteria);

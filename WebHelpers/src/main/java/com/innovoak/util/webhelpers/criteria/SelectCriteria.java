@@ -18,20 +18,24 @@ public class SelectCriteria implements BranchCriteria {
 	private int limit = -1;
 	// Linked hash map for columns to preserve order
 	private LinkedHashMap<String, Boolean> orderBy;
-	//Offset
-	private int offset = -1; 
+	// Offset
+	private int offset = -1;
 
 	// Constructor
+	public SelectCriteria(PredicateCriteria criteria) {
+		this(criteria, -1, null, -1);
+	}
+
 	public SelectCriteria(PredicateCriteria criteria, int limit, LinkedHashMap<String, Boolean> orderBy, int offset) {
 		super();
 		this.criteria = criteria;
 		this.limit = limit;
 		this.orderBy = orderBy;
-		this.offset = offset; 
+		this.offset = offset;
 	}
-	
+
 	public SelectCriteria() {
-		
+
 	}
 
 	// Getters and Setters
@@ -60,37 +64,42 @@ public class SelectCriteria implements BranchCriteria {
 	public List<Criteria> getNodeCriteria() {
 		return Arrays.asList(criteria);
 	}
-	
+
 	@Override
 	public String toString() {
+
 		// Create the string builder
-		StringBuilder clause = new StringBuilder("WHERE ").append(criteria.toString()).append(" ");
+		StringBuilder clause = new StringBuilder();
+
+		// Check if there are no criteria
+		if (criteria == null || criteria.equals(Criteria.NoneHolder.NONE))
+			clause.append("WHERE ").append(criteria.toString()).append(" ");
 
 		// Check if the map exists and has values
-	    if (orderBy != null && !orderBy.isEmpty()) {
-	    	// Add order by
-	    	clause.append("ORDER BY ");
+		if (orderBy != null && !orderBy.isEmpty()) {
+			// Add order by
+			clause.append("ORDER BY ");
 
-	    	// Set order
-	        for (Entry<String, Boolean> entry : orderBy.entrySet()) {
-	            clause.append(entry.getKey()).append(" ").append(entry.getValue() ? "DESC" : "ASC").append(", ");
-	        }
-	        clause.setLength(clause.length() - 2); // Remove the extra comma and space
-	        clause.append(" ");
-	    }
-	    
-	    // Make sure limit is greater than 0
-	    if (limit > 0) {
-	        clause.append("LIMIT ").append(limit).append(" ");
-	    }
+			// Set order
+			for (Entry<String, Boolean> entry : orderBy.entrySet()) {
+				clause.append(entry.getKey()).append(" ").append(entry.getValue() ? "DESC" : "ASC").append(", ");
+			}
+			clause.setLength(clause.length() - 2); // Remove the extra comma and space
+			clause.append(" ");
+		}
 
-	    // Make sure offset is greater than 0
-	    if (offset > 0) {
-	        clause.append("OFFSET ").append(offset).append(" ");
-	    }
+		// Make sure limit is greater than 0
+		if (limit > 0) {
+			clause.append("LIMIT ").append(limit).append(" ");
+		}
 
-	 // Trim to remove any unnecessary whitespaces
-	    return clause.toString();
+		// Make sure offset is greater than 0
+		if (offset > 0) {
+			clause.append("OFFSET ").append(offset).append(" ");
+		}
+
+		// Trim to remove any unnecessary whitespaces
+		return clause.toString();
 	}
 
 }

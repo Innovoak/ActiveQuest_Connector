@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
 import com.innovoak.util.webhelpers.criteria.predicate.comparing.EqualsCriteria;
 
 // This interface acts as a method of data transfer from the client on the server
@@ -11,14 +12,14 @@ public interface Repository<T extends Serializable> {
 
 	// GET VALUES
 	default void get(Serializable id) throws Exception {
-		getAllBy(new EqualsCriteria("id", id));
+		getAllBy(new SelectCriteria(new EqualsCriteria("id", id)));
 	}
 
 	default List<T> getAll() throws Exception {
-		return getAllBy(Criteria.NoneHolder.NONE);
+		return getAllBy(new SelectCriteria(Criteria.NoneHolder.NONE));
 	}
 
-	List<T> getAllBy(Criteria criteria) throws Exception;
+	List<T> getAllBy(SelectCriteria criteria) throws Exception;
 
 	/// DELETE VALUES
 	default void delete(Serializable id) throws Exception {
