@@ -13,7 +13,7 @@ update statements - DELETE FROM <table> (WHERE <conditions>)
 delete statements - UPDATE <table> SET <column = value> (WHERE <condition>)
 
  */
-public interface Query<T> extends Iterable<T>, Serializable {
+public interface Query extends Serializable {
 
 	// Executes the query
 	public default void execute(DatabaseSession session) throws Exception {

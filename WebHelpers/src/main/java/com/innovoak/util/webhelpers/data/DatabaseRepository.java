@@ -5,7 +5,8 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.Repository;
-import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 
 // Will create a persisted object into database... ignores any transient values
 // To access classes of other models or tables.. we must parse them too and figure out the table they come from
@@ -28,7 +29,7 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	}
 
 	@Override
-	public List<T> getAllBy(Criteria criteria) throws Exception {
+	public List<T> getAllBy(SelectCriteria criteria) throws Exception {
 		checkClosed();
 		// TODO: FINISH
 
@@ -36,14 +37,7 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	}
 
 	@Override
-	public void deleteAllBy(Criteria criteria) throws Exception {
-		checkClosed();
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void insert(T object) throws Exception {
+	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		checkClosed();
 		// TODO Auto-generated method stub
 
@@ -58,7 +52,7 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	}
 
 	@Override
-	public void updateAllBy(T object, Criteria criteria) throws Exception {
+	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		checkClosed();
 		// TODO Auto-generated method stub
 
@@ -72,5 +66,6 @@ public abstract class DatabaseRepository<T extends Serializable> implements Repo
 	// Table specific data
 	protected abstract String getTableName();
 
+	// Create a new instance of the object
 	protected abstract T newInstance();
 }

@@ -26,7 +26,7 @@ public class GreaterThanOrEqualToCriteria implements ComparisonOperator {
 	//To String 
 	@Override
 	public String toString() {
-		return String.format("s >= ?", column); 
+		return String.format("%s >= ?", column); 
 	}
 
 	//Parameters 

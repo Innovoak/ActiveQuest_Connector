@@ -3,7 +3,8 @@ package com.innovoak.util.webhelpers.server;
 import java.io.Serializable;
 import java.util.List;
 
-import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.data.DatabaseService;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 
@@ -21,7 +22,7 @@ public abstract class DatabaseRepositoryServlet<T extends Serializable> extends 
 	}
 
 	@Override
-	public List<T> getAllBy(Criteria criteria) throws Exception {
+	public List<T> getAllBy(SelectCriteria criteria) throws Exception {
 		try (DatabaseSession session = SERVICE.createSession()) {
 
 			return session.getRepository(clazz).getAllBy(criteria);
@@ -30,19 +31,10 @@ public abstract class DatabaseRepositoryServlet<T extends Serializable> extends 
 	}
 
 	@Override
-	public void deleteAllBy(Criteria criteria) throws Exception {
+	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		try (DatabaseSession session = SERVICE.createSession()) {
 
 			session.getRepository(clazz).deleteAllBy(criteria);
-
-		}
-	}
-
-	@Override
-	public void insert(T object) throws Exception {
-		try (DatabaseSession session = SERVICE.createSession()) {
-
-			session.getRepository(clazz).insert(object);
 
 		}
 	}
@@ -58,7 +50,7 @@ public abstract class DatabaseRepositoryServlet<T extends Serializable> extends 
 	}
 
 	@Override
-	public void updateAllBy(T object, Criteria criteria) throws Exception {
+	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		try (DatabaseSession session = SERVICE.createSession()) {
 
 			session.getRepository(clazz).updateAllBy(object, criteria);

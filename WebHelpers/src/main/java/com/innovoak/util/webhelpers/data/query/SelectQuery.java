@@ -22,7 +22,7 @@ import com.innovoak.util.webhelpers.data.Query;
 
 // select statements - SELECT (DISTINCT) <columns> FROM <table> (WHERE <conditions>) (LIMIT <number>) (ORDER BY <columns (ASC | DESC)>)
 //                 bolean distinct - Columns columns - String tableName - Criteria criteria
-public final class SelectQuery implements Query<Map<String, Object>> {
+public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 	private static final long serialVersionUID = 1L;
 	// The sql statement
 	private String sql;
@@ -80,7 +80,7 @@ public final class SelectQuery implements Query<Map<String, Object>> {
 	public Iterator<Map<String, Object>> iterator() {
 		// make sure that this has executed
 		if (iterable == null)
-			throw new IllegalStateException("Data has not been loaded yet");
+			throw new IllegalStateException("Query has not been executed yet");
 
 		// Return the list iterator
 		return iterable.iterator();

@@ -3,7 +3,6 @@ package com.innovoak.util.webhelpers.criteria.predicate.logical;
 import java.util.Arrays;
 import java.util.List;
 
-import com.innovoak.util.webhelpers.criteria.BranchCriteria;
 import com.innovoak.util.webhelpers.criteria.Criteria;
 
 //Represents NOT notation on criterias

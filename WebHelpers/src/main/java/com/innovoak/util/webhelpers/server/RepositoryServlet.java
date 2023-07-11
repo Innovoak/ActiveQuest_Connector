@@ -9,6 +9,8 @@ import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Repository;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 
 // A servlet which acts as a REST repository for ONLY JAVA CLIENTS to access
 // Acts as abstract class to access data from server
@@ -17,8 +19,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 
 	// Templates
 	// Create templates
-	public static final MessageBuilder CREATE_SINGLE_BUILDER_TEMPLATE;
-	public static final MessageBuilder CREATE_MULTI_BUILDER_TEMPLATE;
+	public static final MessageBuilder CREATE_BUILDER_TEMPLATE;
 	// Insert templates
 	public static final MessageBuilder READ_BUILDER_TEMPLATE;
 	// Destroy templates
@@ -29,9 +30,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 	// Create the template builders
 	static {
 		// Creational messages
-		CREATE_SINGLE_BUILDER_TEMPLATE = MessageBuilder.create().setAction("CREATE").setName("SINGLE")
-				.setDescription("Client sends a model to the servlet to create. EXPECT a Model");
-		CREATE_MULTI_BUILDER_TEMPLATE = MessageBuilder.create().setAction("CREATE").setName("MULTI")
+		CREATE_BUILDER_TEMPLATE = MessageBuilder.create().setAction("CREATE").setName("CREATE")
 				.setDescription("Client sends a collection of models to the servlet to create. EXPECT a Collection");
 		// Reading messages
 		READ_BUILDER_TEMPLATE = MessageBuilder.create().setAction("READ").setName("READ")
@@ -53,19 +52,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 
 		// Get the action from the message
 		try {
-			if (CREATE_SINGLE_BUILDER_TEMPLATE.matches(message)) {
-
-				// Get the message
-				T value = (T) message.getContent();
-
-				// Insert it
-				insert(value);
-
-				// Send Success Message
-				response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
-						"Model created successfully");
-
-			} else if (CREATE_MULTI_BUILDER_TEMPLATE.matches(message)) {
+			if (CREATE_BUILDER_TEMPLATE.matches(message)) {
 
 				// Get the message
 				List<T> value = (List<T>) message.getContent();
@@ -80,7 +67,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 			} else if (READ_BUILDER_TEMPLATE.matches(message)) {
 
 				// Get the message
-				Criteria value = (Criteria) message.getContent();
+				SelectCriteria value = (SelectCriteria) message.getContent();
 
 				// Get it
 				List<T> content = getAllBy(value);
@@ -91,7 +78,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 			} else if (DESTROY_BUILDER_TEMPLATE.matches(message)) {
 
 				// Get the message
-				Criteria value = (Criteria) message.getContent();
+				PredicateCriteria value = (PredicateCriteria) message.getContent();
 
 				// Delete it
 				deleteAllBy(value);
@@ -106,7 +93,7 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 				Map<Class<?>, Serializable> map = (Map<Class<?>, Serializable>) message.getContent();
 
 				// Get the values
-				Criteria critera = (Criteria) map.get(Criteria.class);
+				PredicateCriteria critera = (PredicateCriteria) map.get(Criteria.class);
 				T value = (T) map.get(Serializable.class);
 
 				// Delete it

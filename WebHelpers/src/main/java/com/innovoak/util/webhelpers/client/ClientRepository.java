@@ -10,7 +10,8 @@ import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Repository;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.client.HttpMessageClient.HttpMessageClientBuilder;
-import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.server.RepositoryServlet;
 
 // Acts as a REST repository for the client side access from server
@@ -20,7 +21,7 @@ public abstract class ClientRepository<T extends Serializable> implements Reposi
 	// Method to get values
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getAllBy(Criteria criteria) throws Exception {
+	public List<T> getAllBy(SelectCriteria criteria) throws Exception {
 
 		// Create a messenging service and send read message
 		Message message = HttpMessageClientBuilder
@@ -39,7 +40,7 @@ public abstract class ClientRepository<T extends Serializable> implements Reposi
 
 	// Method to delete values
 	@Override
-	public void deleteAllBy(Criteria criteria) throws Exception {
+	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		// Create a messenging service and send read message
 		Message message = HttpMessageClientBuilder
 				.create().setValues(getRepositoryURL(), MessageBuilder
@@ -52,28 +53,13 @@ public abstract class ClientRepository<T extends Serializable> implements Reposi
 		}
 	}
 
-	// Method to insert a singular value
-	@Override
-	public void insert(T object) throws Exception {
-		// Create a messenging service and send create message
-		Message message = HttpMessageClientBuilder.create()
-				.setValues(getRepositoryURL(), MessageBuilder
-						.fromTemplate(RepositoryServlet.CREATE_SINGLE_BUILDER_TEMPLATE).setContent(object).build())
-				.build().call();
-
-		// Get message
-		if (message.isError()) {
-			throw new Exception(message.getContent().toString());
-		}
-	}
-
 	// Method to insert values
 	@Override
 	public void insertAll(List<T> objects) throws Exception {
 		// Create a messenging service and send create message
-		Message message = HttpMessageClientBuilder.create()
-				.setValues(getRepositoryURL(), MessageBuilder
-						.fromTemplate(RepositoryServlet.CREATE_MULTI_BUILDER_TEMPLATE).setContent(objects).build())
+		Message message = HttpMessageClientBuilder
+				.create().setValues(getRepositoryURL(), MessageBuilder
+						.fromTemplate(RepositoryServlet.CREATE_BUILDER_TEMPLATE).setContent(objects).build())
 				.build().call();
 
 		// Get message
@@ -84,7 +70,7 @@ public abstract class ClientRepository<T extends Serializable> implements Reposi
 
 	// Method to update all values
 	@Override
-	public void updateAllBy(T object, Criteria criteria) throws Exception {
+	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		// Create a messenging service and send update message
 		Message message = HttpMessageClientBuilder.create()
 				.setValues(getRepositoryURL(), MessageBuilder.fromTemplate(RepositoryServlet.UPDATE_BUILDER_TEMPLATE)

@@ -1,10 +1,12 @@
 package com.innovoak.util.webhelpers;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.criteria.Criteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.predicate.comparing.EqualsCriteria;
 
 // This interface acts as a method of data transfer from the client on the server
@@ -30,10 +32,12 @@ public interface Repository<T extends Serializable> {
 		deleteAllBy(Criteria.NoneHolder.NONE);
 	}
 
-	void deleteAllBy(Criteria criteria) throws Exception;
+	void deleteAllBy(PredicateCriteria criteria) throws Exception;
 
 	// INSERT VALUES
-	void insert(T object) throws Exception;
+	default void insert(T object) throws Exception {
+		insertAll(Collections.singletonList(object));
+	}
 
 	void insertAll(List<T> objects) throws Exception;
 
@@ -46,5 +50,5 @@ public interface Repository<T extends Serializable> {
 		updateAllBy(object, Criteria.NoneHolder.NONE);
 	}
 
-	void updateAllBy(T object, Criteria criteria) throws Exception;
+	void updateAllBy(T object, PredicateCriteria criteria) throws Exception;
 }
