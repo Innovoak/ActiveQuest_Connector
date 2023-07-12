@@ -78,8 +78,8 @@ public class InsertQuery implements Query, Iterable<Integer> {
 		for (List<Object> row : values) {
 
 			// Set objects
-			for (int i = 1; i <= row.size(); i++) {
-				statement.setObject(i, row.get(i));
+			for (int i = 0; i < row.size(); i++) {
+				statement.setObject(i + 1, row.get(i));
 			}
 
 			// Add batch
