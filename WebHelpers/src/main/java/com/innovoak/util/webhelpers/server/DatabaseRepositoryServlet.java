@@ -3,8 +3,8 @@ package com.innovoak.util.webhelpers.server;
 import java.io.Serializable;
 import java.util.List;
 
+import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.data.DatabaseService;
 import com.innovoak.util.webhelpers.data.DatabaseSession;
 

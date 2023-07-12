@@ -21,7 +21,7 @@ public class InsertQuery implements Query, Iterable<Integer> {
 	// Set the sql, values
 	private String sql;
 	private List<List<Object>> values;
-	private int[] result;
+	private transient int[] result;
 
 	// No arg constructor - for serialization
 	public InsertQuery() {

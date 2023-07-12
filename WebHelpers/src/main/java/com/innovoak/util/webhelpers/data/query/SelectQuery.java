@@ -125,4 +125,12 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 		ps.close();
 	}
 
+	public String getSql() {
+		return sql;
+	}
+
+	public List<Object> getParams() {
+		return params;
+	}
+
 }

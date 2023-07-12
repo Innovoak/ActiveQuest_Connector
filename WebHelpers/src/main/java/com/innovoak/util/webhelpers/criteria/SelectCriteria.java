@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
-
 // USED FOR ONLY SELECT STATEMENTS - DO NOT USE FOR DELETE OR UPDATE
 // Represents the criteria (where clause) along with limit and order by
 // Should be the root node

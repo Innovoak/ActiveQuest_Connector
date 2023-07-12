@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.predicate.comparing.EqualsCriteria;
 
 // This interface acts as a method of data transfer from the client on the server

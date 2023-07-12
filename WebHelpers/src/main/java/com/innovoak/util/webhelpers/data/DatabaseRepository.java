@@ -5,8 +5,8 @@ import java.sql.Connection;
 import java.util.List;
 
 import com.innovoak.util.webhelpers.Repository;
+import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 
 // Will create a persisted object into database... ignores any transient values
 // To access classes of other models or tables.. we must parse them too and figure out the table they come from

@@ -10,8 +10,8 @@ import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Repository;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.client.HttpMessageClient.HttpMessageClientBuilder;
+import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 import com.innovoak.util.webhelpers.server.RepositoryServlet;
 
 // Acts as a REST repository for the client side access from server

@@ -9,8 +9,8 @@ import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Repository;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.criteria.Criteria;
+import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
-import com.innovoak.util.webhelpers.criteria.predicate.PredicateCriteria;
 
 // A servlet which acts as a REST repository for ONLY JAVA CLIENTS to access
 // Acts as abstract class to access data from server
