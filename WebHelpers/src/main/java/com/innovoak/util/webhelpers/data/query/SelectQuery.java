@@ -55,11 +55,11 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 				.toString();
 
 		// Get params
-		getParams(criteria);
+		fetchParams(criteria);
 	}
 
 	// Uses DFS algorithm to get params from criteria
-	public void getParams(Criteria criteria) {
+	public void fetchParams(Criteria criteria) {
 		// Base case
 		if (criteria instanceof LeafCriteria) {
 			// Get parameters
@@ -72,7 +72,7 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 
 			// Get its nodes
 			for (Criteria criterion : branch.getNodeCriteria())
-				getParams(criterion);
+				fetchParams(criterion);
 		}
 	}
 
@@ -93,7 +93,7 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 
 		// Set the params
 		for (int i = 0; i < params.size(); i++)
-			ps.setObject(i, params.get(i));
+			ps.setObject(i + 1, params.get(i));
 
 		// Execute query
 		ResultSet rs = ps.executeQuery();
