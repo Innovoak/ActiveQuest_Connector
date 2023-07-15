@@ -12,11 +12,12 @@ import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.client.HttpMessageClient.HttpMessageClientBuilder;
 import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.data.Model;
 import com.innovoak.util.webhelpers.server.RepositoryServlet;
 
 // Acts as a REST repository for the client side access from server
 // Uses HttpConnection to get values (wrapped in a HttpMessageClient)
-public abstract class ClientRepository<T extends Serializable> implements Repository<T> {
+public abstract class ClientRepository<T extends Model> implements Repository<T> {
 
 	// Method to get values
 	@SuppressWarnings("unchecked")

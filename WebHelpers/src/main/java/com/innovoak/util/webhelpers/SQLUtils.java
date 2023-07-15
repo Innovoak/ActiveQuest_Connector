@@ -16,7 +16,7 @@ public class SQLUtils {
 
 		// Add the header labels
 		for (int column = 1; column <= metaData.getColumnCount(); column++) {
-			columnNames.add(metaData.getColumnLabel(1));
+			columnNames.add(metaData.getColumnLabel(column));
 		}
 
 		return Collections.unmodifiableSet(columnNames);

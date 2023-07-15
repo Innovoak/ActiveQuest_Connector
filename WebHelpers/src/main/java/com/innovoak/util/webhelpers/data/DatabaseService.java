@@ -1,5 +1,6 @@
 package com.innovoak.util.webhelpers.data;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Collections;
@@ -11,7 +12,7 @@ import org.apache.commons.dbcp.BasicDataSource;
 import com.innovoak.util.webhelpers.ClasspathUtils;
 
 // Singleton class for database service
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public final class DatabaseService implements AutoCloseable {
 	// Singleton values
 	private static volatile DatabaseService service;
@@ -21,6 +22,7 @@ public final class DatabaseService implements AutoCloseable {
 	static {
 		// Create a map to house the repositories
 		HashMap<Class<?>, Class<? extends DatabaseRepository>> repositoryClasses = new HashMap<>();
+		HashMap<Class<? extends Model>, Map<Serializable, Model>> cache = new HashMap<>();
 
 		try {
 			// Go through all concrete implementations of DatabaseRepository
@@ -28,6 +30,7 @@ public final class DatabaseService implements AutoCloseable {
 					.findAllConcreteInstances(DatabaseRepository.class)) {
 				// Add this to the repositoryClasses
 				repositoryClasses.put(clazz.getMethod("newInstance").getReturnType(), clazz);
+				cache.put((Class<? extends Model>) clazz.getMethod("newInstance").getReturnType(), new HashMap<>());
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("This is not supposed to happen");
@@ -35,7 +38,6 @@ public final class DatabaseService implements AutoCloseable {
 
 		// Add the repositories
 		TOTAL_REPOSITORIES = Collections.unmodifiableMap(repositoryClasses);
-
 	}
 
 	// States
@@ -135,5 +137,4 @@ public final class DatabaseService implements AutoCloseable {
 	public void setConfiguration(Configuration configuration) {
 		this.configuration = configuration;
 	}
-
 }
