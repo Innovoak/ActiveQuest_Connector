@@ -18,9 +18,19 @@ public interface Query extends Serializable {
 	// Executes the query
 	public default void execute(DatabaseSession session) throws Exception {
 
-		// Execute query
-		execute(session.getConnection());
+		try {
+			// Execute query
+			execute(session.getConnection());
 
+			if (session.isAutoCommit())
+				session.commit();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+			if (session.isAutoCommit())
+				session.rollback();
+		}
 	}
 
 	public void execute(Connection connection) throws SQLException;

@@ -11,10 +11,11 @@ import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.criteria.Criteria;
 import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
+import com.innovoak.util.webhelpers.data.Model;
 
 // A servlet which acts as a REST repository for ONLY JAVA CLIENTS to access
 // Acts as abstract class to access data from server
-public abstract class RepositoryServlet<T extends Serializable> extends MessageServlet implements Repository<T> {
+public abstract class RepositoryServlet<T extends Model> extends MessageServlet implements Repository<T> {
 	private static final long serialVersionUID = 1L;
 
 	// Templates
@@ -41,12 +42,14 @@ public abstract class RepositoryServlet<T extends Serializable> extends MessageS
 		// Updating messages
 		UPDATE_BUILDER_TEMPLATE = MessageBuilder.create().setAction("UPDATE").setName("UPDATE").setDescription(
 				"Client sends both a model object and criteria for records to update with this model, EXPECTS a Map<Class, Serializable> with its contents being one criteria and the other a model");
+		
 	}
 
 	// Processes the message
 	@SuppressWarnings("unchecked")
 	@Override
 	public Message process(Message message) {
+		
 		// Declare the response
 		Message response;
 

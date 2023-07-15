@@ -8,13 +8,14 @@ import com.innovoak.util.webhelpers.criteria.Criteria;
 import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
 import com.innovoak.util.webhelpers.criteria.predicate.comparing.EqualsCriteria;
+import com.innovoak.util.webhelpers.data.Model;
 
 // This interface acts as a method of data transfer from the client on the server
-public interface Repository<T extends Serializable> {
+public interface Repository<T extends Model> {
 
 	// GET VALUES
-	default void get(Serializable id) throws Exception {
-		getAllBy(new SelectCriteria(new EqualsCriteria("id", id)));
+	default T get(Serializable id) throws Exception {
+		return getAllBy(new SelectCriteria(new EqualsCriteria("id", id))).stream().findFirst().get();
 	}
 
 	default List<T> getAll() throws Exception {

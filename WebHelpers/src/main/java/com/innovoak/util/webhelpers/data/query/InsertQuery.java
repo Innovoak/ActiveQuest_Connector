@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,6 +26,15 @@ public class InsertQuery implements Query, Iterable<Integer> {
 
 	// No arg constructor - for serialization
 	public InsertQuery() {
+		values = Collections.emptyList();
+	}
+
+	// protected constructor
+	protected InsertQuery(String sql) {
+		this();
+		// Sql
+		this.sql = sql;
+
 	}
 
 	// Arg constructor

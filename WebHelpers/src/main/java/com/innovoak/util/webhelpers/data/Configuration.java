@@ -9,14 +9,14 @@ public class Configuration {
 
 	// Fields
 	private boolean defaultAutoCommit;
-	private String driverClassName;
-	private String url;
 	private int minIdle = 0;
 	private int maxIdle = -1;
 	private int maxOpenPreparedStatements = -1;
+	private boolean poolPreparedStatements;
+	private String driverClassName;
+	private String url;
 	private String username;
 	private String password;
-	private boolean poolPreparedStatements;
 
 	// Constructors
 	public Configuration() {
