@@ -5,6 +5,7 @@ import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -67,34 +68,60 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		checkClosed();
 
-		// Delete all values from the table represented by this repo with the required
-		// criteria
-		QueryBuilder.createDeleteBuilder().setTableName(getTableName()).setCriteria(criteria).build().execute(session);
+		try {
+			// Delete all values from the table represented by this repo with the required
+			// criteria
+			QueryBuilder.createDeleteBuilder().setTableName(getTableName()).setCriteria(criteria).build()
+					.execute(session);
 
+			if (!session.isAutoCommit())
+				session.commit();
+		} catch (SQLException e) {
+			if (!session.isAutoCommit())
+				session.rollback();
+
+		}
 	}
 
 	@Override
 	public void insertAll(List<T> objects) throws Exception {
 		checkClosed();
 
-		QueryBuilder.createInsertBuilder().setTableName(getTableName()).setValuesMap(objects.stream().map(t -> {
-			// Get or throw
-			try {
-				return DatabaseRepository.objectToMap(t);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}).collect(Collectors.toList()));
+		try {
+			QueryBuilder.createInsertBuilder().setTableName(getTableName()).setValuesMap(objects.stream().map(t -> {
+				// Get or throw
+				try {
+					return DatabaseRepository.objectToMap(t);
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}).collect(Collectors.toList()));
+
+			if (!session.isAutoCommit())
+				session.commit();
+		} catch (SQLException e) {
+			if (!session.isAutoCommit())
+				session.rollback();
+
+		}
 	}
 
 	@Override
 	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		checkClosed();
 
-		// Create the query
-		QueryBuilder.createUpdateBuilder().setTableName(getTableName()).setCriteria(criteria)
-				.setValues(objectToMap(object)).build().execute(session);
+		try {
+			// Create the query
+			QueryBuilder.createUpdateBuilder().setTableName(getTableName()).setCriteria(criteria)
+					.setValues(objectToMap(object)).build().execute(session);
 
+			if (!session.isAutoCommit())
+				session.commit();
+		} catch (SQLException e) {
+			if (!session.isAutoCommit())
+				session.rollback();
+
+		}
 	}
 
 	// Get the connection from the session
