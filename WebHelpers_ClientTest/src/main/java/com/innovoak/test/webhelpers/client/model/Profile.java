@@ -1,13 +1,12 @@
 package com.innovoak.test.webhelpers.client.model;
 
-import java.io.Serializable;
 import java.sql.Date;
-import java.util.UUID;
+import java.util.Objects;
 
-public class Profile implements Serializable {
+import com.innovoak.util.webhelpers.data.Model;
+
+public class Profile extends Model {
 	private static final long serialVersionUID = 1L;
-
-	private String id;
 	private String name;
 	private String email;
 	private String bio;
@@ -18,7 +17,6 @@ public class Profile implements Serializable {
 	}
 
 	public Profile(String name, String email, String bio, Date dob, boolean isStudent) {
-		this.id = UUID.randomUUID().toString();
 		this.name = name;
 		this.email = email;
 		this.bio = bio;
@@ -26,12 +24,13 @@ public class Profile implements Serializable {
 		this.isStudent = isStudent;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public Profile(String id, String name, String email, String bio, Date dob, boolean isStudent) {
+		super(id);
+		this.name = name;
+		this.email = email;
+		this.bio = bio;
+		this.dob = dob;
+		this.isStudent = isStudent;
 	}
 
 	public String getName() {
@@ -72,6 +71,27 @@ public class Profile implements Serializable {
 
 	public void setStudent(boolean isStudent) {
 		this.isStudent = isStudent;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(bio, dob, email, isStudent, name);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Profile other = (Profile) obj;
+		return Objects.equals(bio, other.bio) && Objects.equals(dob, other.dob) && Objects.equals(email, other.email)
+				&& isStudent == other.isStudent && Objects.equals(name, other.name);
 	}
 
 }
