@@ -73,6 +73,7 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 	@Override
 	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		// Create a messenging service and send update message
+		// TODO: FIX THIS
 		Message message = HttpMessageClientBuilder.create()
 				.setValues(getRepositoryURL(), MessageBuilder.fromTemplate(RepositoryServlet.UPDATE_BUILDER_TEMPLATE)
 						.setContent(Arrays.<Serializable>asList(object, criteria)).build())
