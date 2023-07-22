@@ -3,13 +3,15 @@ package com.innovoak.util.webhelpers.client;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Repository;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;
 import com.innovoak.util.webhelpers.client.HttpMessageClient.HttpMessageClientBuilder;
+import com.innovoak.util.webhelpers.criteria.Criteria;
 import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
 import com.innovoak.util.webhelpers.criteria.SelectCriteria;
 import com.innovoak.util.webhelpers.data.Model;
@@ -73,10 +75,13 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 	@Override
 	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		// Create a messenging service and send update message
-		// TODO: FIX THIS
+		Map<Class<?>, Serializable> map = new HashMap<>();
+		map.put(Serializable.class, object);
+		map.put(Criteria.class, criteria);
+		
 		Message message = HttpMessageClientBuilder.create()
 				.setValues(getRepositoryURL(), MessageBuilder.fromTemplate(RepositoryServlet.UPDATE_BUILDER_TEMPLATE)
-						.setContent(Arrays.<Serializable>asList(object, criteria)).build())
+						.setContent(map).build())
 				.build().call();
 
 		// Get message
