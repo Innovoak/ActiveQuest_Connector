@@ -463,6 +463,36 @@ void getAddresses(User user) {
 	showAddress(address);
 }
 
+--------------------------------------------------
+
+Example registrate user
+
+void registrate(User user, Profile profile, List<Address> addresses) {
+	user.setProfileID( profile.getId() );
+	
+	for (Address address : addresses)
+		address.setUserID( user.getId() );
+	
+	UserClientRepository userRepo = new UserClientRepository();
+	ProfileClientRepository profileRepo = new ProfileClientRepository();
+	AddressClientRepository addressRepo = new AddressClientRepository();
+
+	userRepo.insert( user );
+	profileRepo.insert( profile );
+	addressRepo.insertAll( addresses );
+}
+
+--------------------------------------------------
+
+Example edit name
+
+void changeUsername(Profile profile, String username) {
+	profile.setUsername( username );
+	
+	ProfileClientRepository repository = new ProfileClientRepository();
+	
+	repository.update(profile, profile.getId());
+}
 
 
 ```
@@ -637,3 +667,29 @@ public class ServletContextListener extends DatabaseContextListener {
 }
 
 ```
+
+
+**NOTE:** Say you have an application with the following models: User, Address, Profile.
+On the client side, you will need a ClientRepository for each the User, Address, and Profile (i.e. extend the ClientRepository to create the repo)
+and you will need a DatabaseRepository and DatabaseRepositoryServlet for each the User, Address and Profile.
+For example:
+
+Models:
+- User
+- Address
+- Profile
+
+Client
+- UserClientRepository extends ClientRepository<User>
+- AddressClientRepository extends ClientRepository<Address>
+- ProfileClientRepository extends ClientRepository<Profile>
+
+Server
+- Database
+	- UserDatabaseRepository extends DatabaseRepository<User>
+	- AddressDatabaseRepository extends DatabaseRepository<Address>
+	- ProfileDatabaseRepository extends DatabaseRepository<Profile>
+- Servlet
+	- UserDatabaseRepositoryServlet extends DatabaseRepositoryServlet<User>
+	- AddressDatabaseRepositoryServlet extends DatabaseRepositoryServlet<Address>
+	- ProfileDatabaseRepositoryServlet extends DatabaseRepositoryServlet<Profile>
