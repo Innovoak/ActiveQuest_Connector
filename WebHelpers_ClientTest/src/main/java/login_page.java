@@ -91,7 +91,7 @@ public class login_page implements ActionListener {
 		if(e.getSource() == login) {
 		login_page.dispose();
 		login_page.setVisible(false);
-		Profile profile_page = new Profile();
+		profile_page profile_page = new profile_page();
 	
 		
 		}

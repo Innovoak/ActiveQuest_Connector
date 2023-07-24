@@ -15,10 +15,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 
-public class Profile implements ActionListener{
+public class profile_page implements ActionListener{
 	
 	private JFrame Profile = new JFrame();
-	private JPanel contentPane;
+	private JPanel contentPane = new JPanel();
 	private JTextField name_textfield;
 	private JTextField email_textfield;
 	private JTextField textField;
@@ -31,22 +31,17 @@ public class Profile implements ActionListener{
 	private JComboBox dob;
 	private JComboBox yob;
 	private JComboBox mob;
-	private JTextField bio_textfield;
+	private JTextArea bio_textfield;
 	private JCheckBox isStudent_checkbox;
 
 
 
-	public Profile() {
-		Profile = new JFrame();
-		contentPane = new JPanel();
+	public profile_page() {
 		Profile.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Profile.add(contentPane);
 		contentPane.setLayout(null);
 		
 		Profile.setBounds(100, 100, 337, 424);
-		
-
-		
 	
 		
 		JLabel profile_label = new JLabel("Profile");
@@ -79,12 +74,12 @@ public class Profile implements ActionListener{
 		isStudent_label.setBounds(20, 206, 78, 13);
 		contentPane.add(isStudent_label);
 		
-		JCheckBox isStudent_checkbox = new JCheckBox("");
+		isStudent_checkbox = new JCheckBox("");
 		isStudent_checkbox.setEnabled(false);
 		isStudent_checkbox.setBounds(85, 203, 93, 21);
 		contentPane.add(isStudent_checkbox);
 		
-		JTextArea bio_textfield = new JTextArea();
+		bio_textfield = new JTextArea();
 		bio_textfield.setEditable(false);
 		bio_textfield.setText("UW COMP ENG 2028  \r\n*Insert Aspirational quote*");
 		bio_textfield.setBounds(20, 121, 262, 49);
@@ -106,7 +101,7 @@ public class Profile implements ActionListener{
 		contentPane.add(email_textfield);
 		email_textfield.setColumns(10);
 		
-		JComboBox dob = new JComboBox();
+		dob = new JComboBox();
 		dob.setEnabled(false);
 		dob.setEditable(true);
 		dob.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -117,7 +112,7 @@ public class Profile implements ActionListener{
 		contentPane.add(dob);
 	
 		
-		JComboBox mob = new JComboBox();
+		mob = new JComboBox();
 		mob.setEnabled(false);
 		mob.setEditable(true);
 		mob.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -127,7 +122,7 @@ public class Profile implements ActionListener{
 		mob.setBounds(191, 176, 45, 22);
 		contentPane.add(mob);
 		
-		JComboBox yob = new JComboBox();
+		 yob = new JComboBox();
 		yob.setEnabled(false);
 		yob.setEditable(true);
 		yob.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -199,13 +194,13 @@ public class Profile implements ActionListener{
 		save_changes.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		save_changes.setEnabled(false);
 		save_changes.setBounds(148, 346, 134, 21);
-		
+		contentPane.add(save_changes);
 		
 	
 		
 		edit_profile_button.addActionListener(this);
 		save_changes.addActionListener(this);
-		contentPane.add(save_changes);
+		
 		
 		
 		Profile.setVisible(true);
@@ -223,14 +218,26 @@ public class Profile implements ActionListener{
 			city_text.setEditable(true);
 			zip_text.setEditable(true);
 			address_text.setEditable(true);
-		}
-
-		if (e.getSource() == save_changes) {
-			isStudent_checkbox.setEnabled(true);
 			dob.setEnabled(true);
 			mob.setEnabled(true);
 			yob.setEnabled(true);
+			isStudent_checkbox.setEnabled(true);
 			save_changes.setEnabled(true);
+		}
+
+		if (e.getSource() == save_changes) {
+			bio_textfield.setEditable(false);
+			name_textfield.setEditable(false);
+			email_textfield.setEditable(false);
+			country_text.setEditable(false);
+			city_text.setEditable(false);
+			zip_text.setEditable(false);
+			address_text.setEditable(false);
+			dob.setEnabled(false);
+			mob.setEnabled(false);
+			yob.setEnabled(false);
+			isStudent_checkbox.setEnabled(false);
+			save_changes.setEnabled(false);
 		}
 	}
 }
