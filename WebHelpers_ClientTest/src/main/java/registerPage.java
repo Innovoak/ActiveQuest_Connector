@@ -52,6 +52,9 @@ public class registerPage implements ActionListener {
 	private final JTextField password1_text = new JTextField(50);
 	private final JLabel password1 = new JLabel("password");
 	private String date_string;
+	JComboBox dob = new JComboBox();
+	JComboBox mob = new JComboBox();
+	JComboBox yob = new JComboBox();
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public registerPage() {
 		// TODO Auto-generated method stub
@@ -136,21 +139,21 @@ public class registerPage implements ActionListener {
 		bithday.setBounds(20, 124, 30, 25);
 		createAccountPanel.add(bithday);
 		
-		JComboBox dob = new JComboBox();
+		
 		dob.setToolTipText("Day");
 		dob.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
 		dob.setMaximumRowCount(31);
 		dob.setBounds(80, 127, 45, 22);
 		createAccountPanel.add(dob);
 		
-		JComboBox mob = new JComboBox();
+		
 		mob.setModel(new DefaultComboBoxModel(new String[] {"1\t", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
 		mob.setToolTipText("Month");
 		mob.setMaximumRowCount(12);
 		mob.setBounds(130, 127, 55, 22);
 		createAccountPanel.add(mob);
 		
-		JComboBox yob = new JComboBox();
+		
 		yob.setModel(new DefaultComboBoxModel(new String[] {"2023", "2022", "2021", "2020", "2019", "2018", "2017", "2016", "2015", "2014", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005"}));
 		yob.setToolTipText("Year");
 		yob.setMaximumRowCount(100);
@@ -171,9 +174,9 @@ public class registerPage implements ActionListener {
 		createAccountPanel.add(password2);
 		go_to_login_page.addActionListener(this);
 		
-		
+		create_account.addActionListener(this);
 	
-		date_string = yob.getSelectedItem() + ", " + mob.getSelectedItem() + ", " + dob.getSelectedItem();
+		
 		
 ;		
 		createAccount.setVisible(true);
@@ -185,12 +188,17 @@ public class registerPage implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource() == go_to_login_page)
-		createAccount.dispose();
-		createAccount.setVisible(false);
-		login_page login_page = new login_page();
+		if(e.getSource() == go_to_login_page) {
+			createAccount.dispose();
+			createAccount.setVisible(false);
+			login_page login_page = new login_page();
+		}
+	
 		
 		if(e.getSource() == create_account) {
+			
+			System.out.print("clicked create account");
+			date_string = yob.getSelectedItem() + "-" + mob.getSelectedItem() + "-" + dob.getSelectedItem();
 			String name = name_text.getText();
 			String email = email_text.getText();
 			String username = username_text.getText();
@@ -213,9 +221,6 @@ public class registerPage implements ActionListener {
 				JOptionPane.showMessageDialog(createAccount, "Please enter all of the required fields", "Error", JOptionPane.ERROR_MESSAGE);
 			}
 			
-			if(password1 != password2) {
-				JOptionPane.showMessageDialog(createAccount, "Passwords must match", "Error", JOptionPane.ERROR_MESSAGE);
-			}
 			
 			try {
 				List<Profile> profiles = profileClient.getAllBy(new SelectCriteria(new EqualsCriteria("email", email)));
@@ -232,7 +237,9 @@ public class registerPage implements ActionListener {
 					Address address = new Address(city, country, zip, streetAddress, profileID);
 					addressClient.insert(address);
 					
-					
+					createAccount.dispose();
+					createAccount.setVisible(false);
+					login_page loginPage = new login_page();
 					
 				}else if (profiles.size() == 0){
 					JOptionPane.showMessageDialog(createAccount, "An account has already been created with this email.", "Error", JOptionPane.ERROR_MESSAGE);

@@ -1,4 +1,4 @@
-package com.innovoak.test.webhelpers.client.model;
+																																					package com.innovoak.test.webhelpers.client.model;
 
 import java.util.Objects;
 
