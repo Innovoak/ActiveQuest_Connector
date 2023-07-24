@@ -63,7 +63,7 @@ public class registerPage implements ActionListener {
 		createAccountPanel.setLayout(null);
 		
 		//Labels
-		create_account_label.setBounds(216,11,75,25);
+		create_account_label.setBounds(216,11,100,25);
 		createAccountPanel.add(create_account_label);
 		
 		name.setBounds(20,50,100,25);
@@ -185,10 +185,11 @@ public class registerPage implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getSource() == go_to_login_page)
+		if(e.getSource() == go_to_login_page) {
 		createAccount.dispose();
 		createAccount.setVisible(false);
 		login_page login_page = new login_page();
+		}
 		
 		if(e.getSource() == create_account) {
 			String name = name_text.getText();

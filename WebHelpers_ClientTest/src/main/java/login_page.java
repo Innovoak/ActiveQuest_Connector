@@ -26,15 +26,13 @@ public class login_page implements ActionListener {
 	private JTextField address_text;
 	private JTextField email_text;
 	private JTextField age_text;
+	JButton login = new JButton("Login");
 
 	public login_page() {
-		// TODO Auto-generated method stub
-		// creating frame and panel for 'create account' page
 		login_page = new JFrame();
 		JPanel login_page_panel = new JPanel();
 		login_page.setSize(300, 300);
 		login_page.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		;
 		login_page.add(login_page_panel);
 		login_page_panel.setLayout(null);
 
@@ -77,7 +75,7 @@ public class login_page implements ActionListener {
 		login_page_panel.add(age_text);
 
 		// create_account button
-		JButton login = new JButton("Login");
+		
 		login.setBounds(20, 190, 150, 25);
 		login_page_panel.add(login);
 		login.addActionListener(this);
@@ -89,36 +87,44 @@ public class login_page implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
-		String name = name_text.getText();
-		String address = name_text.getText();
-		String email = name_text.getText();
-		String age = name_text.getText();
-
-		UserClientRepository userClient = new UserClientRepository();
-		ProfileClientRepository profileClient = new ProfileClientRepository();
-		AddressClientRepository addressClient = new AddressClientRepository();
-
-		try {
-			List<User> users = userClient.getAllBy(new SelectCriteria(
-					new AndCriteria(
-							new AndCriteria(new EqualsCriteria("name", name), new EqualsCriteria("age", age)),
-							new AndCriteria(new EqualsCriteria("email", email), new EqualsCriteria("address", address)))));
-			
-			if (users.size() == 0)
-				JOptionPane.showMessageDialog(login_page, "ERROR", "Invalid Credentials", JOptionPane.ERROR_MESSAGE);
-			
-			User user = users.get(0);
-			// Get 1 to 1 profile
-			Profile profile = RelationalMapper.get___ToOne(profileClient, user, "profileID");
-			// Get 1 to many addresses
-			List<Address> addresses = RelationalMapper.get___ToMany(addressClient, Address.class, user, "userID");
-			// Get all addresses
-			List<Address> total = addressClient.getAll();
-			
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		
+		if(e.getSource() == login) {
+		login_page.dispose();
+		login_page.setVisible(false);
+		Profile profile_page = new Profile();
+	
+		
 		}
+		
+//		String name = name_text.getText();
+//		String address = name_text.getText();
+//		String email = name_text.getText();
+//		String age = name_text.getText();
+//
+//		UserClientRepository userClient = new UserClientRepository();
+//		ProfileClientRepository profileClient = new ProfileClientRepository();
+//		AddressClientRepository addressClient = new AddressClientRepository();
+//
+//		try {
+//			List<User> users = userClient.getAllBy(new SelectCriteria(
+//					new AndCriteria(
+//							new AndCriteria(new EqualsCriteria("name", name), new EqualsCriteria("age", age)),
+//							new AndCriteria(new EqualsCriteria("email", email), new EqualsCriteria("address", address)))));
+//			
+//			if (users.size() == 0)
+//				JOptionPane.showMessageDialog(login_page, "ERROR", "Invalid Credentials", JOptionPane.ERROR_MESSAGE);
+//			
+//			User user = users.get(0);
+//			// Get 1 to 1 profile
+//			Profile profile = RelationalMapper.get___ToOne(profileClient, user, "profileID");
+//			// Get 1 to many addresses
+//			List<Address> addresses = RelationalMapper.get___ToMany(addressClient, Address.class, user, "userID");
+//			// Get all addresses
+//			List<Address> total = addressClient.getAll();
+//			
+//		} catch (Exception e1) {
+//			e1.printStackTrace();
+//		}
 
 	}
 
