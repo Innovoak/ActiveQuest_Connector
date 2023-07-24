@@ -52,8 +52,13 @@ public abstract class QueryBuilder<T extends Query> extends ConstructableBuilder
 			return this;
 		}
 
-		public SelectQueryBuilder setCriteria(SelectCriteria criteria) {
+		public SelectQueryBuilder setTypeMap(Map<String, Class<?>> criteria) {
 			setCtorArg(3, criteria);
+			return this;
+		}
+		
+		public SelectQueryBuilder setCriteria(SelectCriteria criteria) {
+			setCtorArg(4, criteria);
 			return this;
 		}
 

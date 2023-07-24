@@ -7,7 +7,6 @@ import java.io.ObjectOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.innovoak.util.webhelpers.Message;
 import com.innovoak.util.webhelpers.Message.MessageBuilder;

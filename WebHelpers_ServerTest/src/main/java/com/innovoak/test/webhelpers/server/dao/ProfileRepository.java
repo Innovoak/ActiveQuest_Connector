@@ -11,11 +11,6 @@ public class ProfileRepository extends DatabaseRepository<Profile> {
 	}
 
 	@Override
-	public String getTableName() {
-		return "Profile";
-	}
-
-	@Override
 	public Profile newInstance() {
 		return new Profile();
 	}

@@ -4,7 +4,10 @@ import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.Serializable;
+import java.sql.JDBCType;
 import java.util.UUID;
+
+import com.innovoak.util.webhelpers.data.annotations.Column;
 
 // Model class - generic models
 public abstract class Model implements Serializable {
@@ -23,6 +26,7 @@ public abstract class Model implements Serializable {
 	}
 
 	// Getters and Setters
+	@Column(columnName = "id", primaryKey = true, type = JDBCType.VARCHAR, unique = true)
 	public String getId() {
 		return id;
 	}

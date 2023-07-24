@@ -30,6 +30,7 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 
 	// Parameters from criteria
 	private List<Object> params;
+	private Map<String, Class<?>> typeMap;
 
 	// Serialization purposes only
 	public SelectQuery() {
@@ -46,13 +47,16 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 	}
 
 	// Public constructor
-	public SelectQuery(boolean distinct, Columns columns, String tableName, SelectCriteria criteria) {
+	public SelectQuery(boolean distinct, Columns columns, String tableName, Map<String, Class<?>> typeMap,
+			SelectCriteria criteria) {
 
 		// Build the sql
 		sql = new StringBuilder().append("SELECT ").append(distinct ? "DISTINCT " : "").append(columns.toString())
 				.append(" FROM ").append(tableName)
 				.append(criteria == null || criteria.getCriteria() == Criteria.NoneHolder.NONE ? "" : criteria)
 				.toString();
+
+		this.typeMap = typeMap == null ? Collections.emptyMap() : typeMap;
 
 		// Get params
 		fetchParams(criteria);
@@ -86,6 +90,11 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 		return iterable.iterator();
 	}
 
+	//
+	public List<Map<String, Object>> getResult() {
+		return iterable;
+	}
+
 	@Override
 	public void execute(Connection connection) throws SQLException {
 		// Prepare the statement
@@ -111,7 +120,8 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 
 			// Populate it with result set data
 			for (String column : columns)
-				row.put(column, rs.getObject(column));
+				row.put(column,
+						typeMap.containsKey(column) ? rs.getObject(column, typeMap.get(column)) : rs.getObject(column));
 
 			// add the map to the list
 			iterable.add(row);

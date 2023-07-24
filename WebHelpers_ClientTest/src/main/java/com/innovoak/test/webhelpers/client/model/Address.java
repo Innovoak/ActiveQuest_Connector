@@ -1,9 +1,13 @@
 package com.innovoak.test.webhelpers.client.model;
 
+import java.sql.JDBCType;
 import java.util.Objects;
 
 import com.innovoak.util.webhelpers.data.Model;
+import com.innovoak.util.webhelpers.data.annotations.Column;
+import com.innovoak.util.webhelpers.data.annotations.Table;
 
+@Table(name = "addresses")
 public class Address extends Model {
 	private static final long serialVersionUID = 1L;
 
@@ -48,6 +52,7 @@ public class Address extends Model {
 		this.zip = zip;
 	}
 
+	@Column(columnName = "street_address")
 	public String getStreetAddress() {
 		return streetAddress;
 	}
@@ -56,6 +61,7 @@ public class Address extends Model {
 		this.streetAddress = streetAddress;
 	}
 
+	@Column(columnName = "user_id")
 	public String getUserID() {
 		return userID;
 	}

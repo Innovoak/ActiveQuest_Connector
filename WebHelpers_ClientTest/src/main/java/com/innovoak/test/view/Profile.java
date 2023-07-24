@@ -1,3 +1,4 @@
+package com.innovoak.test.view;
 
 
 import javax.swing.JFrame;

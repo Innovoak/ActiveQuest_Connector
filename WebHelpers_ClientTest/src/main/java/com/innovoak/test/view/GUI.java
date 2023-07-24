@@ -1,3 +1,4 @@
+package com.innovoak.test.view;
 
 public class GUI {
 

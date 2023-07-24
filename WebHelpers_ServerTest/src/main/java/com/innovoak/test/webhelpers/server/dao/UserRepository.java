@@ -13,11 +13,6 @@ public class UserRepository extends DatabaseRepository<User> {
 	}
 
 	@Override
-	public String getTableName() {
-		return "user";
-	}
-
-	@Override
 	public User newInstance() {
 		return new User();
 	}

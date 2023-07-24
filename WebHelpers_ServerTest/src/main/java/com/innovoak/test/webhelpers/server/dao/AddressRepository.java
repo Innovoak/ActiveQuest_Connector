@@ -11,11 +11,6 @@ public class AddressRepository extends DatabaseRepository<Address> {
 	}
 
 	@Override
-	public String getTableName() {
-		return "Address";
-	}
-
-	@Override
 	public Address newInstance() {
 		return new Address();
 	}

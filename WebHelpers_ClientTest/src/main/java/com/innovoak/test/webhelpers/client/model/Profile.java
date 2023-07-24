@@ -1,10 +1,14 @@
 package com.innovoak.test.webhelpers.client.model;
 
 import java.sql.Date;
+import java.sql.JDBCType;
 import java.util.Objects;
 
 import com.innovoak.util.webhelpers.data.Model;
+import com.innovoak.util.webhelpers.data.annotations.Column;
+import com.innovoak.util.webhelpers.data.annotations.Table;
 
+@Table(name = "profiles")
 public class Profile extends Model {
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -57,6 +61,7 @@ public class Profile extends Model {
 		this.bio = bio;
 	}
 
+	@Column(columnName = "dob", type = JDBCType.DATE)
 	public Date getDob() {
 		return dob;
 	}
@@ -65,6 +70,7 @@ public class Profile extends Model {
 		this.dob = dob;
 	}
 
+	@Column(columnName = "is_student")
 	public boolean isStudent() {
 		return isStudent;
 	}
