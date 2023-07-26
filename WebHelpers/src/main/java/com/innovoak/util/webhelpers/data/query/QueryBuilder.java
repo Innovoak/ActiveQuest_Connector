@@ -21,7 +21,7 @@ public abstract class QueryBuilder<T extends Query> extends ConstructableBuilder
 
 	// New instance
 	@Override
-	protected T newInstance() {
+	protected T newInstance() throws Exception {
 		super.setCtorArgs(ctorArgs);
 		return super.newInstance();
 	}

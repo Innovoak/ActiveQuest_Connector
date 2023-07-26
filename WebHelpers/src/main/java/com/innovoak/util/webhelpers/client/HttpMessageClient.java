@@ -7,13 +7,20 @@ import java.net.URLConnection;
 import java.util.concurrent.Callable;
 
 import com.innovoak.util.webhelpers.Message;
+import com.innovoak.util.webhelpers.builders.AbstractBuilder;
 import com.innovoak.util.webhelpers.builders.ConstructableBuilder;
 
 // Create a messenger client
 public class HttpMessageClient implements Callable<Message> {
+
+	public static enum ContentType {
+		JAVA_OBJECT, XML, JSON
+	}
 	// Create the fields
 	private Message input;
 	private URL url;
+	private ContentType contentType = ContentType.JAVA_OBJECT;
+	
 
 	// Private constructor
 	private HttpMessageClient(URL location, Message input) {
@@ -42,17 +49,29 @@ public class HttpMessageClient implements Callable<Message> {
 	}
 
 	// Create a builder for the httpmessagebuilder
-	public static class HttpMessageClientBuilder extends ConstructableBuilder<HttpMessageClient> {
+	public static class HttpMessageClientBuilder extends AbstractBuilder<HttpMessageClient> {
+		private URL url;
+		private Message message;
 
 		// Set the values
-		public HttpMessageClientBuilder setValues(URL url, Message body) {
-			setCtorArgs(url, body);
+		public HttpMessageClientBuilder setURL(URL url) {
+			this.url = url;
 			return this;
+		}
+
+		// Set the values
+		public HttpMessageClientBuilder setMessage(Message body) {
+			this.message = body;
+			return this;
+		}
+
+		@Override
+		public HttpMessageClient newInstance() {
+			return new HttpMessageClient(url, message);
 		}
 
 		// Add the class
 		private HttpMessageClientBuilder() {
-			super(HttpMessageClient.class);
 		}
 
 		// Factory method

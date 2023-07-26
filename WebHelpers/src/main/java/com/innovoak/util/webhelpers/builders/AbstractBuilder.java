@@ -17,6 +17,7 @@ public abstract class AbstractBuilder<T> implements Builder<T> {
 
 	// Set the property and return the current builder
 	public AbstractBuilder<T> setProperty(String key, Object value) {
+		
 		properties.put(key, value);
 
 		return this;
@@ -30,13 +31,18 @@ public abstract class AbstractBuilder<T> implements Builder<T> {
 	}
 
 	// Get a new instance of the buildable object
-	protected abstract T newInstance();
+	protected abstract T newInstance() throws Exception;
 
 	// Create a new instance
 	@Override
 	public T build() {
 		// Get a new instance
-		T value = newInstance();
+		T value;
+		try {
+			value = newInstance();
+		} catch (Exception e) {
+			throw new RuntimeException("Cannot build object", e);
+		}
 
 		// Add its properties
 		for (String fieldName : properties.keySet()) {
@@ -44,7 +50,7 @@ public abstract class AbstractBuilder<T> implements Builder<T> {
 			try {
 				// Invoke setter
 				new PropertyDescriptor(fieldName, value.getClass()).getWriteMethod().invoke(value,
-						properties.get(value));
+						properties.get(fieldName));
 			} catch (Exception e) {
 
 				// If there is no getter, resort to changing the field directly

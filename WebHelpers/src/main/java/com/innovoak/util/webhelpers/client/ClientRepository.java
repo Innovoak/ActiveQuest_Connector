@@ -28,7 +28,7 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 
 		// Create a messenging service and send read message
 		Message message = HttpMessageClientBuilder
-				.create().setValues(getRepositoryURL(), MessageBuilder
+				.create().setURL(getRepositoryURL()).setMessage(MessageBuilder
 						.fromTemplate(RepositoryServlet.READ_BUILDER_TEMPLATE).setContent(criteria).build())
 				.build().call();
 
@@ -46,7 +46,7 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		// Create a messenging service and send read message
 		Message message = HttpMessageClientBuilder
-				.create().setValues(getRepositoryURL(), MessageBuilder
+				.create().setURL(getRepositoryURL()).setMessage(MessageBuilder
 						.fromTemplate(RepositoryServlet.DESTROY_BUILDER_TEMPLATE).setContent(criteria).build())
 				.build().call();
 
@@ -61,7 +61,7 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 	public void insertAll(List<T> objects) throws Exception {
 		// Create a messenging service and send create message
 		Message message = HttpMessageClientBuilder
-				.create().setValues(getRepositoryURL(), MessageBuilder
+				.create().setURL(getRepositoryURL()).setMessage(MessageBuilder
 						.fromTemplate(RepositoryServlet.CREATE_BUILDER_TEMPLATE).setContent(objects).build())
 				.build().call();
 
@@ -80,7 +80,7 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 		map.put(Criteria.class, criteria);
 		
 		Message message = HttpMessageClientBuilder.create()
-				.setValues(getRepositoryURL(), MessageBuilder.fromTemplate(RepositoryServlet.UPDATE_BUILDER_TEMPLATE)
+				.setURL(getRepositoryURL()).setMessage(MessageBuilder.fromTemplate(RepositoryServlet.UPDATE_BUILDER_TEMPLATE)
 						.setContent(map).build())
 				.build().call();
 
