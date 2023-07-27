@@ -1,10 +1,13 @@
 																																					package com.innovoak.test.webhelpers.client.model;
 
+import java.sql.JDBCType;
 import java.util.Objects;
 
 import com.innovoak.util.webhelpers.data.Model;
 import com.innovoak.util.webhelpers.data.annotations.Column;
+import com.innovoak.util.webhelpers.data.annotations.Table;
 
+@Table(name = "users")
 public class User extends Model {
 	private static final long serialVersionUID = 1L;
 	private String username;
@@ -44,7 +47,7 @@ public class User extends Model {
 		this.password = password;
 	}
 
-	@Column(columnName = "profile_id")
+	@Column(columnName = "profile_id", unique = true)
 	public String getProfileID() {
 		return profileID;
 	}
