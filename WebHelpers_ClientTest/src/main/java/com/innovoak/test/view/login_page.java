@@ -28,6 +28,7 @@ public class login_page implements ActionListener {
 	private JTextField email_text;
 	private JTextField age_text;
 	JButton login = new JButton("Login");
+	private String profileID; 
 
 	public login_page() {
 		login_page = new JFrame();
@@ -92,7 +93,7 @@ public class login_page implements ActionListener {
 		if(e.getSource() == login) {
 		login_page.dispose();
 		login_page.setVisible(false);
-		profile_page profile_page = new profile_page();
+		profile_page profile_page = new profile_page(profileID);
 	
 		
 		}
