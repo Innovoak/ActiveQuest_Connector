@@ -79,8 +79,8 @@ public class profile_page implements ActionListener{
 			user = users.get(0);
 			
 
-			profile = RelationalMapper.get___ToOne(profileClient, user, "profileID");
-			List<Address> addresses = RelationalMapper.get___ToMany(addressClient, Address.class, user, "userID");
+			profile = RelationalMapper.getOneToOne(profileClient, user, "profileID");
+			List<Address> addresses = RelationalMapper.getOneToMany(addressClient, Address.class, user, "userID");
 			List<Address> total = addressClient.getAll();
 			address1 = addresses.get(0);
 			

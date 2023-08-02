@@ -59,6 +59,10 @@ public abstract class ClientRepository<T extends Model> implements Repository<T>
 	// Method to insert values
 	@Override
 	public void insertAll(List<T> objects) throws Exception {
+		// Do nothing
+		if (objects.isEmpty())
+			return;
+		
 		// Create a messenging service and send create message
 		Message message = HttpMessageClientBuilder
 				.create().setURL(getRepositoryURL()).setMessage(MessageBuilder

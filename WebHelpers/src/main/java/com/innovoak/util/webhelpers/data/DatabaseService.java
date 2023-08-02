@@ -41,7 +41,6 @@ public final class DatabaseService implements AutoCloseable {
 	}
 
 	// States
-	private boolean closed = true;
 	private BasicDataSource ds;
 
 	// Create a new Database service
@@ -70,7 +69,7 @@ public final class DatabaseService implements AutoCloseable {
 	// If the datasource is not already created, create it
 	public void open() {
 		// If there is no data source
-		if (ds != null) {
+		if (ds == null) {
 			// Null check
 			if (configuration == null)
 				throw new NullPointerException("Database configuration cannot be null");
@@ -88,16 +87,14 @@ public final class DatabaseService implements AutoCloseable {
 			ds.setPassword(configuration.getPassword());
 			ds.setPoolPreparedStatements(configuration.isPoolPreparedStatements());
 
-			// set closed as false
-			closed = false;
 		}
 	}
 
 	// Create a new session
 	public DatabaseSession createSession() throws SQLException {
 		// Check access
-		if (closed)
-			throw new IllegalAccessError("Service has is not open");
+		if (ds == null)
+			throw new IllegalAccessError("Service is not open");
 
 		// Return a new instance
 		return new DatabaseSession(service);
@@ -106,10 +103,9 @@ public final class DatabaseService implements AutoCloseable {
 	@Override
 	public void close() throws Exception {
 		// Check if opened and not closed
-		if (!closed) {
+		if (ds != null) {
 			// Close
 			ds.close();
-			closed = true;
 			ds = null;
 		}
 
