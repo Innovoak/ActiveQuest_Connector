@@ -82,6 +82,7 @@ import java.util.Objects;
 import com.innovoak.util.webhelpers.data.Model;
 import com.innovoak.util.webhelpers.data.annotations.Column;
 
+@Table(name = "users")
 public class User extends Model {
 	private static final long serialVersionUID = 1L;
 	private String username;
@@ -162,6 +163,7 @@ import java.util.Objects;
 
 import com.innovoak.util.webhelpers.data.Model;
 
+@Table(name = "profiles")
 public class Profile extends Model {
 	private static final long serialVersionUID = 1L;
 	private String name;
@@ -261,6 +263,7 @@ import java.util.Objects;
 
 import com.innovoak.util.webhelpers.data.Model;
 
+@Table(name = "addresses")
 public class Address extends Model {
 	private static final long serialVersionUID = 1L;
 
@@ -309,10 +312,12 @@ public class Address extends Model {
 		return streetAddress;
 	}
 
+	@Column(columnName = "street_address")
 	public void setStreetAddress(String streetAddress) {
 		this.streetAddress = streetAddress;
 	}
 
+	@Column(columnName = "user_id")
 	public String getUserID() {
 		return userID;
 	}
@@ -516,11 +521,6 @@ public class UserRepository extends DatabaseRepository<User> {
 	}
 
 	@Override
-	public String getTableName() {
-		return "user";
-	}
-
-	@Override
 	public User newInstance() {
 		return new User();
 	}
@@ -542,11 +542,6 @@ public class ProfileRepository extends DatabaseRepository<Profile> {
 	}
 
 	@Override
-	public String getTableName() {
-		return "profile";
-	}
-
-	@Override
 	public Profile newInstance() {
 		return new Profile();
 	}
@@ -565,11 +560,6 @@ public class AddressRepository extends DatabaseRepository<Address> {
 
 	public AddressRepository(DatabaseSession session) {
 		super(session);
-	}
-
-	@Override
-	public String getTableName() {
-		return "address";
 	}
 
 	@Override
