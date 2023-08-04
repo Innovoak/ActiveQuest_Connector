@@ -11,10 +11,10 @@ public class ServletContextListener extends DatabaseContextListener {
 
     @Override
     public Configuration getConfiguration() {
+    	
         return ConfigurationBuilder.create().setDriverClassName("com.mysql.cj.jdbc.Driver")
                 .setUrl("jdbc:mysql://localhost:3306/homework_database").setUsername("root").setPassword("root")
-                .setDefaultAutoCommit(false).setMaxIdle(15).setMinIdle(10).setMaxOpenPreparedStatements(150)
-                .setPoolPreparedStatements(true).build();
+                .setDefaultAutoCommit(true).setMaxIdle(15).setMinIdle(10).setMaxOpenPreparedStatements(150).build();
     }
 
 }

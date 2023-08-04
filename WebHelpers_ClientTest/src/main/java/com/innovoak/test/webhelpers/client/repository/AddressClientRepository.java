@@ -12,7 +12,7 @@ public class AddressClientRepository extends ClientRepository<Address> {
 	// Keep repository URL
 	@Override
 	protected URL getRepositoryURL() throws MalformedURLException {
-		return new URL("http://localhost:8080/WebHelpers/test/address");
+		return new URL("http://localhost:8080/WebHelpers_ServerTest/address");
 	}
 
 }

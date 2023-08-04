@@ -2,6 +2,7 @@ package com.innovoak.util.webhelpers.builders;
 
 import java.beans.Expression;
 import java.util.Arrays;
+import java.util.Objects;
 
 // Create a new constructable builder - builder which invokes a specialized constructor
 // NOTE: Only works for public constructors
@@ -27,14 +28,10 @@ public class ConstructableBuilder<T> extends AbstractBuilder<T> {
 	@SuppressWarnings("unchecked")
 	@Override
 	protected T newInstance() throws Exception {
-		System.out.println(Arrays.toString(ctorArgs));
-
-		Expression expression = new Expression(clazz, "newInstance", ctorArgs);
+		Expression expression = new Expression(clazz, "new", ctorArgs);
 		
 		expression.execute();
 		
-		System.out.println(expression.getValue());
-
 		return (T) expression.getValue();
 	}
 

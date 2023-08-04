@@ -40,6 +40,7 @@ public abstract class DatabaseRepositoryServlet<T extends Model> extends Reposit
 	@Override
 	public void insertAll(List<T> objects) throws Exception {
 		try (DatabaseSession session = SERVICE.createSession()) {
+			System.out.println(session.getRepository(clazz));
 			session.getRepository(clazz).insertAll(objects);
 		}
 	}

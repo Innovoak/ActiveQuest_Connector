@@ -50,7 +50,7 @@ public class InsertQuery implements Query, Iterable<Integer> {
 		}).collect(Collectors.joining(","));
 
 		// Turn to string
-		String questionString = valuesMap.get(0).keySet().stream().map(e -> "?").collect(Collectors.joining());
+		String questionString = valuesMap.get(0).keySet().stream().map(e -> "?").collect(Collectors.joining(","));
 
 		// Create the values
 		values = new LinkedList<>();
@@ -80,12 +80,12 @@ public class InsertQuery implements Query, Iterable<Integer> {
 	// Execute the statement
 	@Override
 	public void execute(Connection connection) throws SQLException {
-
 		// Create a prepared statement
 		PreparedStatement statement = connection.prepareStatement(sql);
 
 		// Go through the rows
 		for (List<Object> row : values) {
+			System.out.println(row);
 
 			// Set objects
 			for (int i = 0; i < row.size(); i++) {

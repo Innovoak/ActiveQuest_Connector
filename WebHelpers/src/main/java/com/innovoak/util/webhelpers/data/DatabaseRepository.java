@@ -1,6 +1,7 @@
 package com.innovoak.util.webhelpers.data;
 
 import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.lang.annotation.Annotation;
@@ -72,60 +73,34 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 	public void deleteAllBy(PredicateCriteria criteria) throws Exception {
 		checkClosed();
 
-		try {
-			// Delete all values from the table represented by this repo with the required
-			// criteria
-			QueryBuilder.createDeleteBuilder().setTableName(getTableName()).setCriteria(criteria).build()
-					.execute(session);
+		// Delete all values from the table represented by this repo with the required
+		// criteria
+		QueryBuilder.createDeleteBuilder().setTableName(getTableName()).setCriteria(criteria).build().execute(session);
 
-			if (!session.isAutoCommit())
-				session.commit();
-		} catch (SQLException e) {
-			if (!session.isAutoCommit())
-				session.rollback();
-
-		}
 	}
 
 	@Override
 	public void insertAll(List<T> objects) throws Exception {
 		checkClosed();
 
-		try {
-			QueryBuilder.createInsertBuilder().setTableName(getTableName()).setValuesMap(objects.stream().map(t -> {
-				// Get or throw
-				try {
-					return DatabaseRepository.objectToMap(t);
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			}).collect(Collectors.toList()));
+		QueryBuilder.createInsertBuilder().setTableName(getTableName()).setValuesMap(objects.stream().map(t -> {
+			// Get or throw
+			try {
+				return DatabaseRepository.objectToMap(t, true);
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		}).collect(Collectors.toList())).build().execute(session);
 
-			if (!session.isAutoCommit())
-				session.commit();
-		} catch (SQLException e) {
-			if (!session.isAutoCommit())
-				session.rollback();
-
-		}
 	}
 
 	@Override
 	public void updateAllBy(T object, PredicateCriteria criteria) throws Exception {
 		checkClosed();
 
-		try {
-			// Create the query
-			QueryBuilder.createUpdateBuilder().setTableName(getTableName()).setCriteria(criteria)
-					.setValues(objectToMap(object)).build().execute(session);
-
-			if (!session.isAutoCommit())
-				session.commit();
-		} catch (SQLException e) {
-			if (!session.isAutoCommit())
-				session.rollback();
-
-		}
+		// Create the query
+		QueryBuilder.createUpdateBuilder().setTableName(getTableName()).setCriteria(criteria)
+				.setValues(objectToMap(object, false)).build().execute(session);
 	}
 
 	// Get the connection from the session
@@ -134,7 +109,7 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 	}
 
 	// Gets object from map
-	private static Map<String, Object> objectToMap(Object object) throws Exception {
+	private static Map<String, Object> objectToMap(Object object, boolean withID) throws Exception {
 		// Create a map
 		Map<String, Object> values = new HashMap<>();
 
@@ -142,7 +117,7 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 		BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
 		for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
 			// Skip id
-			if (descriptor.getName().equals("id"))
+			if (descriptor.getName().equals("id") && !withID)
 				continue;
 
 			if (descriptor.getName().equals("class"))
@@ -172,7 +147,7 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 		Map<String, Class<?>> values = new HashMap<>();
 
 		// Get the bean info and iterate over properties
-		BeanInfo beanInfo = Introspector.getBeanInfo(object.getClass());
+		BeanInfo beanInfo = Introspector.getBeanInfo(object);
 		for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
 
 			if (descriptor.getName().equals("class"))
@@ -222,6 +197,38 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 		// Return values
 		return values;
 
+	}
+
+	public static PropertyDescriptor getPropertyFromColumn(Class<?> clazz, String column) {
+		// Get the bean info and iterate over properties
+		BeanInfo beanInfo;
+
+		try {
+			beanInfo = Introspector.getBeanInfo(clazz);
+		} catch (IntrospectionException e) {
+			throw new RuntimeException("This is not working", e);
+		}
+
+		for (PropertyDescriptor descriptor : beanInfo.getPropertyDescriptors()) {
+
+			// Skip if its transient
+			if (descriptor.getValue("transient") == Boolean.TRUE)
+				continue;
+
+			if (descriptor.getName().equals("class"))
+				continue;
+
+			// Get the read and write method
+			Method read = descriptor.getReadMethod();
+
+			// Check if
+			if (read.isAnnotationPresent(Column.class) && read.getAnnotation(Column.class).columnName().equals(column))
+				return descriptor;
+			else if (!read.isAnnotationPresent(Column.class) && descriptor.getName().equals(column))
+				return descriptor;
+		}
+
+		return null;
 	}
 
 	private static class CustomColumn implements Column {
@@ -282,9 +289,6 @@ public abstract class DatabaseRepository<T extends Model> implements Repository<
 
 		// Iterate over the properties
 		for (PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
-			// Skip id
-			if (descriptor.getName().equals("id"))
-				continue;
 
 			// Skip if its transient
 			if (descriptor.getValue("transient") == Boolean.TRUE)

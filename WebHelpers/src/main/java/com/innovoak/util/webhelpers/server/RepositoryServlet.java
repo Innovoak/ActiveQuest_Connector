@@ -42,84 +42,78 @@ public abstract class RepositoryServlet<T extends Model> extends MessageServlet 
 		// Updating messages
 		UPDATE_BUILDER_TEMPLATE = MessageBuilder.create().setAction("UPDATE").setName("UPDATE").setDescription(
 				"Client sends both a model object and criteria for records to update with this model, EXPECTS a Map<Class, Serializable> with its contents being one criteria and the other a model");
-		
+
 	}
 
 	// Processes the message
 	@SuppressWarnings("unchecked")
 	@Override
-	public Message process(Message message) {
-		
+	public Message process(Message message) throws Exception {
+
 		// Declare the response
 		Message response;
 
 		// Get the action from the message
-		try {
-			if (CREATE_BUILDER_TEMPLATE.matches(message)) {
+		if (CREATE_BUILDER_TEMPLATE.matches(message)) {
 
-				// Get the message
-				List<T> value = (List<T>) message.getContent();
+			// Get the message
+			List<T> value = (List<T>) message.getContent();
 
-				// Insert it
-				insertAll(value);
+			// Insert it
+			insertAll(value);
 
-				// Send Success Message
-				response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
-						"Models created successfully");
+			// Send Success Message
+			response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
+					"Models created successfully");
 
-			} else if (READ_BUILDER_TEMPLATE.matches(message)) {
+		} else if (READ_BUILDER_TEMPLATE.matches(message)) {
 
-				// Get the message
-				SelectCriteria value = (SelectCriteria) message.getContent();
+			// Get the message
+			SelectCriteria value = (SelectCriteria) message.getContent();
 
-				// Get it
-				List<T> content = getAllBy(value);
+			// Get it
+			List<T> content = getAllBy(value);
 
-				// Send Success Message
-				response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully", content);
+			// Send Success Message
+			response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully", content);
 
-			} else if (DESTROY_BUILDER_TEMPLATE.matches(message)) {
+		} else if (DESTROY_BUILDER_TEMPLATE.matches(message)) {
 
-				// Get the message
-				PredicateCriteria value = (PredicateCriteria) message.getContent();
+			// Get the message
+			PredicateCriteria value = (PredicateCriteria) message.getContent();
 
-				// Delete it
-				deleteAllBy(value);
+			// Delete it
+			deleteAllBy(value);
 
-				// Send Success Message
-				response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
-						"Models deleted successfully");
+			// Send Success Message
+			response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
+					"Models deleted successfully");
 
-			} else if (UPDATE_BUILDER_TEMPLATE.matches(message)) {
+		} else if (UPDATE_BUILDER_TEMPLATE.matches(message)) {
 
-				// Get the message
-				Map<Class<?>, Serializable> map = (Map<Class<?>, Serializable>) message.getContent();
+			// Get the message
+			Map<Class<?>, Serializable> map = (Map<Class<?>, Serializable>) message.getContent();
 
-				// Get the values
-				PredicateCriteria critera = (PredicateCriteria) map.get(Criteria.class);
-				T value = (T) map.get(Serializable.class);
+			// Get the values
+			PredicateCriteria critera = (PredicateCriteria) map.get(Criteria.class);
+			T value = (T) map.get(Serializable.class);
 
-				// Delete it
-				updateAllBy(value, critera);
+			// Delete it
+			updateAllBy(value, critera);
 
-				// Send Success Message
-				response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
-						"Models deleted successfully");
+			// Send Success Message
+			response = new Message("SUCCESS", "SUCCESS", "Operation Completed Successfully",
+					"Models deleted successfully");
 
-			} else {
+		} else {
 
-				// Try to handle a custom message
-				try {
-					response = handleCustomMessage(message);
-				} catch (InvalidMessageException e) {
-					// Keep error message
-					throw new RuntimeException("Message doesn't match template");
-				}
+			// Try to handle a custom message
+			try {
+				response = handleCustomMessage(message);
+			} catch (InvalidMessageException e) {
+				// Keep error message
+				throw new RuntimeException("Message doesn't match template");
 			}
-		} catch (Exception e) {
-
-			// Keep error message
-			response = MessageBuilder.fromTemplate(ERROR_BUILDER_TEMPLATE).setContent(e.getMessage()).build();
 		}
 
 		return response;

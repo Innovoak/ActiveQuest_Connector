@@ -30,7 +30,7 @@ public class UpdateQuery implements Query {
 		// Create
 		params = Collections.emptyList();
 	}
-	
+
 	public UpdateQuery(String sql) {
 		this();
 		this.sql = sql;
@@ -44,13 +44,12 @@ public class UpdateQuery implements Query {
 		String columnQuestionString = valuesMap.keySet().stream().map(e -> {
 			params.add(valuesMap.get(e));
 
-			return e;
-		}).collect(Collectors.joining(" = ?, "));
+			return e + " = ?";
+		}).collect(Collectors.joining(", "));
 
 		// Build the sql
 		sql = new StringBuilder().append("UPDATE ").append(tableName).append(" SET ").append(columnQuestionString)
-				.append(criteria == null || criteria.equals(Criteria.NoneHolder.NONE) ? "" : " WHERE " + criteria)
-				.toString();
+				.append(criteria == Criteria.NoneHolder.NONE ? "" : " WHERE " + criteria.toString()).toString();
 
 		// Get params
 		getParams(criteria);
@@ -86,7 +85,7 @@ public class UpdateQuery implements Query {
 		}
 
 		// execute SQL query
-		ps.executeUpdate(sql);
+		ps.executeUpdate();
 
 		// Close prepared statements
 		ps.close();

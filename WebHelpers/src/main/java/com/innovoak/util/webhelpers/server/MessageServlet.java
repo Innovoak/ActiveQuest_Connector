@@ -39,11 +39,13 @@ public abstract class MessageServlet extends HttpServlet {
 			log("Message Sent: " + message);
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			
 			try {
-				resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				
 				pong(resp, MessageBuilder.fromTemplate(ERROR_BUILDER_TEMPLATE).setContent(e.getMessage()).build());
 			} catch (IOException ioe) {
+				ioe.printStackTrace();
 			}
 		}
 
@@ -68,5 +70,5 @@ public abstract class MessageServlet extends HttpServlet {
 	}
 
 	// Process the message
-	public abstract Message process(Message message);
+	public abstract Message process(Message message) throws Exception;
 }

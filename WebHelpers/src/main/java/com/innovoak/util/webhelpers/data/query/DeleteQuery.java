@@ -3,6 +3,7 @@ package com.innovoak.util.webhelpers.data.query;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class DeleteQuery implements Query {
 	// Public constructor
 	public DeleteQuery(String tableName, PredicateCriteria criteria) {
 
+		params = new ArrayList<>();
 		// Build the sql
 		sql = new StringBuilder().append("DELETE ").append(" FROM ").append(tableName)
 				.append(criteria == null || criteria.equals(Criteria.NoneHolder.NONE) ? "" : " WHERE " + criteria)

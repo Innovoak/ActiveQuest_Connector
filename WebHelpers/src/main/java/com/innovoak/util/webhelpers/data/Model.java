@@ -64,29 +64,34 @@ public abstract class Model implements Serializable {
 	// Programatic toString method
 	@Override
 	public final String toString() {
-		
+
 		// Create a string builder
 		StringBuilder builder = new StringBuilder();
-		
+
 		// Add the class name and paranthesis
 		builder.append(this.getClass()).append(" [ ");
-		
+
 		// Try to read bean info and append params
 		try {
 			BeanInfo info = Introspector.getBeanInfo(this.getClass());
-			
+
 			for (PropertyDescriptor descriptor : info.getPropertyDescriptors()) {
 				builder.append(String.format("%s=%s, ", descriptor.getName(), descriptor.getReadMethod().invoke(this)));
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Cannot read bean info");
 		}
-		
+
 		// Remove last 2 chars and append the end chars
 		builder.setLength(builder.length() - 2);
 		builder.append(" ]");
-		
+
 		return builder.toString();
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T extends Model> T withID(String id) {
+		setId(id);
+		return (T) this;
+	}
 }

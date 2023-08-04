@@ -2,6 +2,7 @@ package com.innovoak.util.webhelpers.data.query;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.innovoak.util.webhelpers.builders.ConstructableBuilder;
 import com.innovoak.util.webhelpers.criteria.PredicateCriteria;
@@ -34,7 +35,8 @@ public abstract class QueryBuilder<T extends Query> extends ConstructableBuilder
 	// Select query
 	public static class SelectQueryBuilder extends QueryBuilder<SelectQuery> {
 		private SelectQueryBuilder() {
-			super(SelectQuery.class, 4);
+			super(SelectQuery.class, 5);
+			setCtorArg(0, false);
 		}
 
 		public SelectQueryBuilder setDistinct(boolean distinct) {
@@ -53,10 +55,14 @@ public abstract class QueryBuilder<T extends Query> extends ConstructableBuilder
 		}
 
 		public SelectQueryBuilder setTypeMap(Map<String, Class<?>> criteria) {
+
+			for (Entry<String, Class<?>> entry : criteria.entrySet())
+				System.out.printf("Key=%s, Value=%s%n", entry.getKey(), entry.getValue());
+
 			setCtorArg(3, criteria);
 			return this;
 		}
-		
+
 		public SelectQueryBuilder setCriteria(SelectCriteria criteria) {
 			setCtorArg(4, criteria);
 			return this;
@@ -106,7 +112,7 @@ public abstract class QueryBuilder<T extends Query> extends ConstructableBuilder
 	public static class UpdateQueryBuilder extends QueryBuilder<UpdateQuery> {
 
 		private UpdateQueryBuilder() {
-			super(UpdateQuery.class, 2);
+			super(UpdateQuery.class, 3);
 		}
 
 		public UpdateQueryBuilder setTableName(String tableName) {

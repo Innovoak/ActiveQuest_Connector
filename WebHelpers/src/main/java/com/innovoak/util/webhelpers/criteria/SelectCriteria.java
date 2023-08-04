@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 public class SelectCriteria implements BranchCriteria {
 	private static final long serialVersionUID = 1L;
 	// Where clause
-	private Criteria criteria;
+	private PredicateCriteria criteria;
 	// Limit number
 	private int limit = -1;
 	// Linked hash map for columns to preserve order
@@ -37,11 +37,11 @@ public class SelectCriteria implements BranchCriteria {
 	}
 
 	// Getters and Setters
-	public Criteria getCriteria() {
+	public PredicateCriteria getCriteria() {
 		return criteria;
 	}
 
-	public void setCriteria(Criteria criteria) {
+	public void setCriteria(PredicateCriteria criteria) {
 		this.criteria = criteria;
 	}
 
@@ -51,6 +51,18 @@ public class SelectCriteria implements BranchCriteria {
 
 	public void setLimit(int limit) {
 		this.limit = limit;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public void setOrderBy(LinkedHashMap<String, Boolean> orderBy) {
+		this.orderBy = orderBy;
 	}
 
 	public LinkedHashMap<String, Boolean> getOrderBy() {
@@ -70,8 +82,8 @@ public class SelectCriteria implements BranchCriteria {
 		StringBuilder clause = new StringBuilder();
 
 		// Check if there are no criteria
-		if (criteria == null || criteria.equals(Criteria.NoneHolder.NONE))
-			clause.append("WHERE ").append(criteria.toString()).append(" ");
+		if (!(criteria == null || criteria.equals(Criteria.NoneHolder.NONE)))
+			clause.append(" WHERE ").append(criteria.toString()).append(" ");
 
 		// Check if the map exists and has values
 		if (orderBy != null && !orderBy.isEmpty()) {

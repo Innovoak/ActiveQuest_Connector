@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,17 +50,18 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 	// Public constructor
 	public SelectQuery(boolean distinct, Columns columns, String tableName, Map<String, Class<?>> typeMap,
 			SelectCriteria criteria) {
-
 		// Build the sql
+		params = new ArrayList<>();
 		sql = new StringBuilder().append("SELECT ").append(distinct ? "DISTINCT " : "").append(columns.toString())
 				.append(" FROM ").append(tableName)
-				.append(criteria == null || criteria.getCriteria() == Criteria.NoneHolder.NONE ? "" : criteria)
+				.append(criteria.toString())
 				.toString();
 
 		this.typeMap = typeMap == null ? Collections.emptyMap() : typeMap;
 
 		// Get params
 		fetchParams(criteria);
+		
 	}
 
 	// Uses DFS algorithm to get params from criteria
@@ -67,6 +69,8 @@ public final class SelectQuery implements Query, Iterable<Map<String, Object>> {
 		// Base case
 		if (criteria instanceof LeafCriteria) {
 			// Get parameters
+			System.out.println(criteria);
+			System.out.println(((LeafCriteria) criteria).getParameters());
 			params.addAll(((LeafCriteria) criteria).getParameters());
 
 			// Recursive call

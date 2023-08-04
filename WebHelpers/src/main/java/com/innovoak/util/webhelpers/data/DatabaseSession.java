@@ -2,6 +2,7 @@ package com.innovoak.util.webhelpers.data;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 // Acts as a session or connection to the database
@@ -15,13 +16,17 @@ public final class DatabaseSession implements AutoCloseable {
 		// Open a connection
 		connection = service.openConnection();
 
+		repositories = new HashMap<>();
+		
 		// Create the database repositories
 		DatabaseService.getRepositoryMap().forEach((e, v) -> {
 			// Create the database repository
+			
+			
 			try {
 				repositories.put(e, v.getConstructor(DatabaseSession.class).newInstance(this));
 			} catch (Exception e1) {
-				throw new RuntimeException("This shouldnt happen");
+				throw new RuntimeException("This shouldnt happen", e1);
 			}
 		});
 	}

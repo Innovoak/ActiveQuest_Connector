@@ -11,6 +11,7 @@ public abstract class DatabaseContextListener implements ServletContextListener 
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
+
 		service = DatabaseService.getInstance();
 		service.setConfiguration(getConfiguration());
 		service.open();
@@ -27,5 +28,5 @@ public abstract class DatabaseContextListener implements ServletContextListener 
 	}
 
 	public abstract Configuration getConfiguration();
-	
+
 }

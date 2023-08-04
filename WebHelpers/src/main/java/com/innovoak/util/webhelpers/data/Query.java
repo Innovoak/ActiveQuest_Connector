@@ -22,13 +22,13 @@ public interface Query extends Serializable {
 			// Execute query
 			execute(session.getConnection());
 
-			if (session.isAutoCommit())
+			if (!session.isAutoCommit())
 				session.commit();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 
-			if (session.isAutoCommit())
+			if (!session.isAutoCommit())
 				session.rollback();
 		}
 	}
